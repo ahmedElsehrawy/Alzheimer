@@ -6,6 +6,7 @@ import fonts from "../theme/fonts";
 interface componentNameProps {
   placeholder: string;
   onChangeText: any;
+  value: any;
 }
 
 const CustomTextInput = (props: componentNameProps) => {

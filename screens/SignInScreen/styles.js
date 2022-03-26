@@ -7,6 +7,7 @@ export default styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    backgroundColor: colors.white,
   },
   goBack: {
     position: "absolute",
@@ -27,7 +28,8 @@ export default styles = StyleSheet.create({
     marginVertical: 5,
   },
   forgetPassword: {
-    backgroundColor: colors.white2,
+    backgroundColor: colors.white,
+    zIndex: 110,
   },
   forgetPasswordText: {
     color: colors.blue,
