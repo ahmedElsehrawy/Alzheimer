@@ -2,11 +2,14 @@ import * as React from "react";
 import { Text, StyleSheet, TouchableOpacity } from "react-native";
 import colors from "../theme/colors";
 import fonts from "../theme/fonts";
+import { Ionicons } from "@expo/vector-icons";
 
 interface componentNameProps {
   title: string;
   buttonFunction: any;
   styles?: object;
+  textStyle?: object;
+  icon?: any;
 }
 
 const CustomButton = (props: componentNameProps) => {
@@ -15,7 +18,8 @@ const CustomButton = (props: componentNameProps) => {
       style={{ ...styles.buttonContainer, ...props.styles }}
       onPress={props.buttonFunction}
     >
-      <Text style={styles.text}>{props.title}</Text>
+      {props.icon && <Ionicons name={props.icon} size={26} color="white" />}
+      <Text style={{ ...styles.text, ...props.textStyle }}>{props.title}</Text>
     </TouchableOpacity>
   );
 };
@@ -27,6 +31,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 70,
     justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
     borderRadius: 28,
     backgroundColor: colors.green,
@@ -44,5 +49,6 @@ const styles = StyleSheet.create({
     color: colors.white2,
     fontSize: fonts.large,
     fontWeight: "600",
+    marginHorizontal: 5,
   },
 });
