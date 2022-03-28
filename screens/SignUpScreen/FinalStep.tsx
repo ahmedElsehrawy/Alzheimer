@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 import CustomButton from "../../components/Button";
 import Loader from "../../components/Loader";
 import { AuthContext, setToken } from "../../util";
+import { userTypes } from "../../constants";
 
 interface componentNameProps {
   route: any;
@@ -27,6 +28,9 @@ const SIGN_UP_MUTATION = gql`
       avatar: $avatar
       name: $name
     ) {
+      user {
+        role
+      }
       token
     }
   }
@@ -35,7 +39,7 @@ const SIGN_UP_MUTATION = gql`
 const FinalStep = (props: componentNameProps) => {
   const { route } = props;
 
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
 
   const user = route.params.user;
 
@@ -49,9 +53,14 @@ const FinalStep = (props: componentNameProps) => {
       name: user.fullName,
     },
     onCompleted: (data) => {
-      setToken(data?.signup?.token)
+      setToken(data?.signup?.token, data?.signup?.user?.role)
         .then(() => {
-          setLoggedIn(true);
+          if (data?.signup?.user?.role === userTypes.CARE_GIVER) {
+            setIsAdmin(true);
+            setLoggedIn(true);
+          } else {
+            setLoggedIn(true);
+          }
         })
         .catch((err) => console.log(err));
     },

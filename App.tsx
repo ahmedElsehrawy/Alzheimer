@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MainStack, AuthStack } from "./navigations";
+import { MainStack, AuthStack, AdminStack } from "./navigations";
 //@ts-ignore
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -28,6 +28,7 @@ const client = new ApolloClient({
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   if (!dataLoaded) {
     return (
@@ -41,8 +42,13 @@ export default function App() {
 
   return (
     <ApolloProvider client={client}>
-      <AuthProvider loggedIn={loggedIn} setLoggedIn={setLoggedIn}>
-        {loggedIn ? <MainStack /> : <AuthStack />}
+      <AuthProvider
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+        isAdmin={isAdmin}
+        setIsAdmin={setIsAdmin}
+      >
+        {!loggedIn ? <AuthStack /> : isAdmin ? <AdminStack /> : <MainStack />}
       </AuthProvider>
     </ApolloProvider>
   );

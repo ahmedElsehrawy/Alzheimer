@@ -1,25 +1,55 @@
 import * as React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import colors from "../theme/colors";
 import fonts from "../theme/fonts";
 import { Ionicons } from "@expo/vector-icons";
 
 interface componentNameProps {
-  title: string;
+  title?: string;
   buttonFunction: any;
   styles?: object;
   textStyle?: object;
   icon?: any;
+  disabled?: boolean;
 }
 
 const CustomButton = (props: componentNameProps) => {
-  return (
+  return props.disabled ? (
+    <TouchableWithoutFeedback
+      style={{ ...styles.buttonContainer, ...props.styles }}
+      onPress={props.buttonFunction}
+    >
+      <View style={styles.buttonContainer}>
+        {props.icon && <Ionicons name={props.icon} size={26} color="white" />}
+        {props.title && (
+          <Text
+            style={{
+              ...styles.text,
+              ...props.textStyle,
+            }}
+          >
+            {props.title}
+          </Text>
+        )}
+      </View>
+    </TouchableWithoutFeedback>
+  ) : (
     <TouchableOpacity
       style={{ ...styles.buttonContainer, ...props.styles }}
       onPress={props.buttonFunction}
     >
       {props.icon && <Ionicons name={props.icon} size={26} color="white" />}
-      <Text style={{ ...styles.text, ...props.textStyle }}>{props.title}</Text>
+      {props.title && (
+        <Text style={{ ...styles.text, ...props.textStyle }}>
+          {props.title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };

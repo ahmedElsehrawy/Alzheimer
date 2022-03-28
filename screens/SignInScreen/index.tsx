@@ -15,6 +15,7 @@ import styles from "./styles";
 import { gql, useMutation } from "@apollo/client";
 import Loader from "../../components/Loader";
 import { AuthContext, setToken } from "../../util";
+import { userTypes } from "../../constants";
 
 interface componentNameProps {
   navigation: any;
@@ -23,13 +24,16 @@ interface componentNameProps {
 const SIGN_IN_MUTATION = gql`
   mutation Signin($password: String!, $email: String) {
     signin(password: $password, email: $email) {
+      user {
+        role
+      }
       token
     }
   }
 `;
 
 const SignInScreen = (props: componentNameProps) => {
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,9 +45,14 @@ const SignInScreen = (props: componentNameProps) => {
     },
     onCompleted: (data) => {
       console.log("completed", data);
-      setToken(data?.signin?.token)
+      setToken(data?.signin?.token, data?.signin?.user?.role)
         .then(() => {
-          setLoggedIn(true);
+          if (data?.signin?.user?.role === userTypes.CARE_GIVER) {
+            setIsAdmin(true);
+            setLoggedIn(true);
+          } else {
+            setLoggedIn(true);
+          }
         })
         .catch((err) => console.log(err));
     },

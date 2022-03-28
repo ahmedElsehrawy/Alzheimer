@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "bold",
+    marginTop: 5,
   },
   identification: {
     fontWeight: "500",

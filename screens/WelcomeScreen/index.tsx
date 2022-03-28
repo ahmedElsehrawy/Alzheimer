@@ -8,6 +8,7 @@ import { gql, useQuery } from "@apollo/client";
 import styles from "./styles";
 import Loader from "../../components/Loader";
 import { AuthContext, getToken } from "../../util";
+import { userTypes } from "../../constants";
 
 export const ME = gql`
   query Me {
@@ -29,7 +30,7 @@ interface componentNameProps {
 
 const WelcomeScreen = (props: componentNameProps) => {
   const [token, setToken] = useState(null);
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
 
   const { data, loading } = useQuery(ME, {
     skip: token === null,
@@ -46,8 +47,13 @@ const WelcomeScreen = (props: componentNameProps) => {
 
   useEffect(() => {
     getToken()
-      .then((t) => {
-        setToken(t);
+      .then((data) => {
+        if (data?.token) {
+          setToken(data?.token);
+          if (data?.role === userTypes.CARE_GIVER) {
+            setIsAdmin(true);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);

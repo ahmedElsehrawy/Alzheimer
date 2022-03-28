@@ -1,9 +1,11 @@
 import * as React from "react";
 import { FlatList, TouchableHighlight } from "react-native";
 import styles from "./styles";
-import { contacts } from "../Contacts";
 import Avatar from "../../components/Avatar";
 import { LinearGradient } from "expo-linear-gradient";
+import { GET_CONTACTS } from "../Contacts";
+import { useQuery } from "@apollo/client";
+import Loader from "../../components/Loader";
 
 const colors = [
   { from: "#000000", to: "#434343" },
@@ -26,9 +28,14 @@ const createRandomColor = () => {
 };
 
 const Photos = () => {
+  const { data, loading } = useQuery(GET_CONTACTS);
+
+  if (!data || loading) {
+    return <Loader />;
+  }
   return (
     <FlatList
-      data={contacts}
+      data={data?.contacts?.nodes}
       keyExtractor={(item) => item.id.toString()}
       numColumns={2}
       horizontal={false}
@@ -39,9 +46,9 @@ const Photos = () => {
         >
           <TouchableHighlight onPress={() => {}} style={styles.item}>
             <Avatar
-              imageUrl={itemData.item.imageUrl}
+              imageUrl={itemData.item.mainImage}
               name={itemData.item.name}
-              identification={itemData.item.identification}
+              identification={itemData.item.description}
               diameter={100}
               type="small"
               textColor="#fff"
