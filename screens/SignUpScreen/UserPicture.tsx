@@ -16,29 +16,45 @@ const UserNewProfilePictureScreen = (props: componentNameProps) => {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [camera, setCamera] = useState<any>(null);
 
-  let user = route.params.user;
-
-  console.log("object", user);
   const takeImageHandler = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
+      let newFile = {
+        uri: data.uri,
+        type: `test/${data.uri.split(".")[1]}`,
+        name: `test.${data.uri.split(".")[0]}`,
+      };
       navigation.navigate("FinalStep", {
-        user: { ...user, image: data.uri },
+        user: route.params.user,
+        imageFile: newFile,
       });
     }
   };
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const data = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
+      base64: true,
     });
 
-    if (!result.cancelled) {
+    let newFile = {
+      //@ts-ignore
+      uri: data.uri,
+      //@ts-ignore
+
+      type: `test/${data.uri.split(".")[1]}`,
+      //@ts-ignore
+
+      name: `test.${data.uri.split(".")[0]}`,
+    };
+
+    if (!data.cancelled) {
       navigation.navigate("FinalStep", {
-        user: { ...user, image: result.uri },
+        user: route.params.user,
+        imageFile: newFile,
       });
     }
   };

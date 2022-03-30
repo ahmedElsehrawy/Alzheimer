@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, View, StyleSheet, Text } from "react-native";
+import { Image, View, StyleSheet } from "react-native";
 import fonts from "../theme/fonts";
 import CustomText from "./CustomText";
 
@@ -14,6 +14,7 @@ interface componentNameProps {
 
 const Avatar = (props: componentNameProps) => {
   const { imageUrl, diameter, name, identification, type, textColor } = props;
+
   let commonProperties = {
     width: diameter,
     height: diameter,
@@ -35,7 +36,11 @@ const Avatar = (props: componentNameProps) => {
           ...commonProperties,
         }}
       >
-        <Image source={{ uri: imageUrl }} style={commonProperties} />
+        <Image
+          source={{ uri: imageUrl }}
+          loadingIndicatorSource={{ uri: imageUrl }}
+          style={commonProperties}
+        />
       </View>
       {name && (
         <CustomText

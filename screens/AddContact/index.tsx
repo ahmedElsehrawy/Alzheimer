@@ -9,9 +9,33 @@ import CustomButton from "../../components/Button";
 import CustomText from "../../components/CustomText";
 import CustomTextInput from "../../components/CustomTextInput";
 import RNPickerSelect from "react-native-picker-select";
+import { gql, useMutation } from "@apollo/client";
 
 import styles from "./styles";
 import colors from "../../theme/colors";
+import { CLOUDINARY_URL } from "../../constants";
+
+const ADD_CONTACT = gql`
+  mutation AddContact(
+    $images: [String!]!
+    $type: ContactType!
+    $mainImage: String
+    $description: String
+    $message: String
+    $name: String
+  ) {
+    addContact(
+      images: $images
+      type: $type
+      mainImage: $mainImage
+      description: $description
+      message: $message
+      name: $name
+    ) {
+      id
+    }
+  }
+`;
 
 interface componentNameProps {
   navigation: any;
@@ -22,7 +46,18 @@ const AddContact = (props: componentNameProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState(null);
-  const [images, setImages] = useState([{}]);
+  const [images, setImages] = useState([]);
+
+  const [addContact, { data, loading }] = useMutation(ADD_CONTACT, {
+    variables: {
+      images: images,
+      type: type,
+      name: name,
+      message: `this is ${name} he is your ${type} he is ${description}`,
+      description: description,
+      mainImage: null,
+    },
+  });
 
   const placeholder = {
     label: "Select Contact Type...",
@@ -32,6 +67,7 @@ const AddContact = (props: componentNameProps) => {
 
   useEffect(() => {
     if (props.route.params?.contactImages) {
+      //@ts-ignore
       setImages([...props.route.params?.contactImages]);
     }
   }, [props.route]);

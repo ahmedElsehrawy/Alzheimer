@@ -1,4 +1,3 @@
-import React, { createContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AUTH_TOKEN = "AUTH_TOKEN";
@@ -17,7 +16,8 @@ export const getToken = async () => {
 };
 
 export const setToken = (newToken, role) => {
-  console.log("new Token from utils", newToken);
+  console.log("🚀 ~ file: index.js ~ line 19 ~ setToken ~ newToken", newToken);
+
   token = newToken;
   return AsyncStorage.setItem(AUTH_TOKEN, newToken).then(() => {
     AsyncStorage.setItem("Role", role);
@@ -28,28 +28,5 @@ export const signOut = () => {
   token = undefined;
   return AsyncStorage.removeItem(AUTH_TOKEN).then(() =>
     AsyncStorage.removeItem("Role")
-  );
-};
-
-export const AuthContext = createContext();
-
-export const AuthProvider = ({
-  children,
-  loggedIn,
-  setLoggedIn,
-  isAdmin,
-  setIsAdmin,
-}) => {
-  return (
-    <AuthContext.Provider
-      value={{
-        loggedIn,
-        setLoggedIn,
-        isAdmin,
-        setIsAdmin,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
   );
 };

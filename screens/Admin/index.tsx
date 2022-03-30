@@ -2,7 +2,7 @@ import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import Avatar from "../../components/Avatar";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
-import styles from "./styles";
+import styles from "../Profile/styles";
 import { ME } from "../WelcomeScreen";
 import { useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
@@ -39,7 +39,6 @@ const ListItem = (props: ListItemProps) => {
         )}
         <CustomText
           styles={{
-            color: colors.adminListTextColor,
             fontSize: fonts.medium,
             marginHorizontal: 10,
           }}
@@ -68,7 +67,6 @@ const Admin = (props: AdminProps) => {
         diameter={150}
         imageUrl={data?.me?.avatar}
         name={data?.me?.name}
-        textColor={colors.white}
         identification="Role (Admin)"
       />
       <View style={styles.list}>

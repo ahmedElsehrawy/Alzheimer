@@ -33,7 +33,10 @@ const ProcceedScreen = (props: componentNameProps) => {
   };
 
   useEffect(() => {
-    console.log("user", user);
+    console.log(
+      "🚀 ~ file: ProcceedScreen.tsx ~ line 38 ~ ProcceedScreen ~ user",
+      user
+    );
   }, [user]);
 
   return (

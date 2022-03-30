@@ -5,3 +5,6 @@ export const userTypes = {
   CARE_GIVER: "CARE_GIVER",
   RELATIVE: "RELATIVE",
 };
+
+export const CLOUDINARY_URL =
+  "https://api.cloudinary.com/v1_1/dsnth7hww/image/upload";

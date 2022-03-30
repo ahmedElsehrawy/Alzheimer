@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+//@ts-ignore
 import { BarIndicator } from "react-native-indicators";
 
 const Loader = () => {

@@ -14,8 +14,11 @@ interface componentNameProps {
 
 const AddContactImages = (props: componentNameProps) => {
   const onSuccess = (data: any) => {
+    console.log(
+      "🚀 ~ file: AddContactImages.tsx ~ line 17 ~ onSuccess ~ data",
+      data
+    );
     Alert.alert("Done", data.length + "Images selected");
-    console.log("images", data);
 
     props.navigation.navigate("AddContact", {
       contactImages: data,
@@ -57,6 +60,7 @@ const AddContactImages = (props: componentNameProps) => {
     }),
     []
   );
+
   const _textStyle = {
     color: "white",
   };
@@ -118,6 +122,7 @@ const AddContactImages = (props: componentNameProps) => {
               Errors={widgetErrors}
               Styles={widgetStyles}
               Navigator={widgetNavigator}
+
               // Resize={widgetResize} know how to use first , perform slower results.
             />
           </View>

@@ -7,7 +7,8 @@ import { gql, useQuery } from "@apollo/client";
 
 import styles from "./styles";
 import Loader from "../../components/Loader";
-import { AuthContext, getToken } from "../../util";
+import { getToken } from "../../modules/auth";
+import { AuthContext } from "../../modules/store";
 import { userTypes } from "../../constants";
 
 export const ME = gql`
@@ -56,7 +57,8 @@ const WelcomeScreen = (props: componentNameProps) => {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log("🚀 ~ file: index.tsx ~ line 60 ~ useEffect ~ err", err);
+
         setToken(null);
         setLoggedIn(false);
       });

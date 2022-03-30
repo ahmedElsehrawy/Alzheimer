@@ -10,7 +10,7 @@ import {
   HttpLink,
 } from "@apollo/client";
 import { ApolloURI } from "./constants";
-import { AuthProvider } from "./util";
+import { AuthProvider } from "./modules/store";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -35,7 +35,9 @@ export default function App() {
       <AppLoading
         startAsync={fetchFonts}
         onFinish={() => setDataLoaded(true)}
-        onError={() => console.log("error")}
+        onError={(err) => {
+          console.log("🚀 ~ file: App.tsx ~ line 41 ~ App ~ err", err);
+        }}
       />
     );
   }

@@ -1,10 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { gql, useMutation } from "@apollo/client";
 import CustomButton from "../../components/Button";
 import Loader from "../../components/Loader";
-import { AuthContext, setToken } from "../../util";
-import { userTypes } from "../../constants";
+import { setToken } from "../../modules/auth";
+import { AuthContext } from "../../modules/store";
+import { CLOUDINARY_URL, userTypes } from "../../constants";
 
 interface componentNameProps {
   route: any;
@@ -37,46 +38,90 @@ const SIGN_UP_MUTATION = gql`
 `;
 
 const FinalStep = (props: componentNameProps) => {
+  const [loading, setLoading] = useState(true);
+  const [image, setImage] = useState("");
   const { route } = props;
 
   const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
 
   const user = route.params.user;
 
-  const [addUser, { data, loading }] = useMutation(SIGN_UP_MUTATION, {
-    variables: {
-      email: user.emailAddress,
-      phone: user.phoneNumber,
-      role: user.type,
-      password: user.password,
-      avatar: user.image,
-      name: user.fullName,
-    },
-    onCompleted: (data) => {
-      setToken(data?.signup?.token, data?.signup?.user?.role)
-        .then(() => {
-          if (data?.signup?.user?.role === userTypes.CARE_GIVER) {
-            setIsAdmin(true);
-            setLoggedIn(true);
-          } else {
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => console.log(err));
-    },
-    onError: () => {
-      setLoggedIn(false);
-    },
-  });
+  const [addUser, { data, loading: signUpLoading }] = useMutation(
+    SIGN_UP_MUTATION,
+    {
+      variables: {
+        email: user.emailAddress,
+        phone: user.phoneNumber,
+        role: user.type,
+        password: user.password,
+        avatar: image,
+        name: user.fullName,
+      },
+      onCompleted: (data) => {
+        setToken(data?.signup?.token, data?.signup?.user?.role)
+          .then(() => {
+            if (data?.signup?.user?.role === userTypes.CARE_GIVER) {
+              setIsAdmin(true);
+              setLoggedIn(true);
+            } else {
+              setLoggedIn(true);
+            }
+          })
+          .catch((err) => {
+            console.log(
+              "🚀 ~ file: FinalStep.tsx ~ line 71 ~ FinalStep ~ err",
+              err
+            );
+          });
+      },
+      onError: () => {
+        setLoggedIn(false);
+      },
+    }
+  );
 
-  if (loading) {
+  const handleUploadImage = (image: object) => {
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", "xrhxqiwj");
+    formData.append("cloud_name", "dsnth7hww");
+
+    fetch(CLOUDINARY_URL, {
+      body: formData,
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("🚀 ~ file: FinalStep.tsx ~ line 95 ~ .then ~ data", data);
+
+        setImage(data.url);
+      })
+      .catch((err) => {
+        console.log(
+          "🚀 ~ file: FinalStep.tsx ~ line 100 ~ handleUploadImage ~ err",
+          err
+        );
+      });
+  };
+
+  useEffect(() => {
+    handleUploadImage(route.params?.imageFile);
+  }, [route.params.imageFile]);
+
+  useEffect(() => {
+    if (image !== "") {
+      setLoading(false);
+    }
+  }, [image]);
+
+  if (signUpLoading || loading) {
     return <Loader />;
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image source={{ uri: route.params.user.image }} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
       </View>
       <View style={{ width: "80%" }}>
         <CustomButton title="SignUp" buttonFunction={() => addUser()} />

@@ -14,8 +14,11 @@ import Header from "../../components/Header";
 import styles from "./styles";
 import { gql, useMutation } from "@apollo/client";
 import Loader from "../../components/Loader";
-import { AuthContext, setToken } from "../../util";
+import { setToken } from "../../modules/auth";
+import { AuthContext } from "../../modules/store";
 import { userTypes } from "../../constants";
+import { ME } from "../WelcomeScreen";
+import { GET_CONTACTS } from "../Contacts";
 
 interface componentNameProps {
   navigation: any;
@@ -43,8 +46,10 @@ const SignInScreen = (props: componentNameProps) => {
       password: password,
       email: email,
     },
+    refetchQueries: [{ query: ME }, { query: GET_CONTACTS }],
     onCompleted: (data) => {
-      console.log("completed", data);
+      console.log("🚀 ~ file: index.tsx ~ line 51 ~ SignInScreen ~ data", data);
+
       setToken(data?.signin?.token, data?.signin?.user?.role)
         .then(() => {
           if (data?.signin?.user?.role === userTypes.CARE_GIVER) {
@@ -54,7 +59,12 @@ const SignInScreen = (props: componentNameProps) => {
             setLoggedIn(true);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(
+            "🚀 ~ file: index.tsx ~ line 63 ~ SignInScreen ~ err",
+            err
+          );
+        });
     },
     onError: () => {
       setLoggedIn(false);
