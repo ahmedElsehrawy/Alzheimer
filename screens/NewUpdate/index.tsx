@@ -8,33 +8,8 @@ import {
 import CustomButton from "../../components/Button";
 import CustomText from "../../components/CustomText";
 import CustomTextInput from "../../components/CustomTextInput";
-// import { gql, useMutation } from "@apollo/client";
-
 import styles from "./styles";
 import colors from "../../theme/colors";
-import { CLOUDINARY_URL } from "../../constants";
-
-// const ADD_UPDATE = gql`
-//   mutation AddContact(
-//     $images: [String!]!
-//     $type: ContactType!
-//     $mainImage: String
-//     $description: String
-//     $message: String
-//     $name: String
-//   ) {
-//     addContact(
-//       images: $images
-//       type: $type
-//       mainImage: $mainImage
-//       description: $description
-//       message: $message
-//       name: $name
-//     ) {
-//       id
-//     }
-//   }
-// `;
 
 interface componentNameProps {
   navigation: any;
@@ -44,18 +19,7 @@ interface componentNameProps {
 const NewUpdate = (props: componentNameProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState([]);
-
-  // const [addUpdate, { data, loading }] = useMutation(ADD_UPDATE, {
-  //   variables: {
-  //     images: images,
-  //     type: type,
-  //     name: name,
-  //     message: `this is ${name} he is your ${type} he is ${description}`,
-  //     description: description,
-  //     mainImage: null,
-  //   },
-  // });
+  const [note, setNote] = useState("");
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -76,12 +40,29 @@ const NewUpdate = (props: componentNameProps) => {
               value={description}
               onChangeText={(text: string) => setDescription(text)}
             />
+            <CustomTextInput
+              placeholder="note (optional)"
+              value={note}
+              onChangeText={(text: string) => setNote(text)}
+            />
 
             <View style={styles.btnContainer}>
               <CustomButton
+                icon="images-outline"
+                styles={{
+                  width: 70,
+                  height: 70,
+                  borderRadius: 35,
+                  backgroundColor: colors.black2,
+                }}
+                buttonFunction={() =>
+                  props.navigation.navigate("UpdatePictureScreen")
+                }
+              />
+              <CustomButton
                 title="ADD"
                 styles={{
-                  width: "100%",
+                  width: "60%",
                   height: 70,
                   backgroundColor: colors.black2,
                 }}

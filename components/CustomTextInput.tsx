@@ -4,13 +4,17 @@ import colors from "../theme/colors";
 import fonts from "../theme/fonts";
 
 interface componentNameProps {
-  placeholder: string;
-  onChangeText: any;
+  placeholder?: string;
+  onChangeText?: any;
   value: any;
+  style?: any;
+  editable?: boolean;
+  onPressIn?: any;
 }
 
 const CustomTextInput = (props: componentNameProps) => {
-  return <TextInput {...props} style={styles.textInput} />;
+  let outStyle = props.style ? props.style : {};
+  return <TextInput {...props} style={{ ...styles.textInput, ...outStyle }} />;
 };
 
 export default CustomTextInput;

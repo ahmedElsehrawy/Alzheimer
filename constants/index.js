@@ -7,4 +7,4 @@ export const userTypes = {
 };
 
 export const CLOUDINARY_URL =
-  "https://api.cloudinary.com/v1_1/dsnth7hww/image/upload";
+  "https://api.cloudinary.com/v1_1/dsnth7hww/upload";

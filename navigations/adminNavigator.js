@@ -15,6 +15,10 @@ import Admin from "../screens/Admin";
 import { Text, TouchableWithoutFeedback } from "react-native";
 import fonts from "../theme/fonts";
 import { signOut } from "../modules/auth";
+import ContactPictureScreen from "../screens/AddContact/ContactPicture";
+import Contacts from "../screens/Contacts";
+import UpdatePictureScreen from "../screens/NewUpdate/UpdatePictureScreen";
+import EventPictureScreen from "../screens/AddEvent/EventPictureScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -72,15 +76,22 @@ export default AdminStack = () => {
           options={getOptions("person-add-outline", "ionicons")}
         />
         <Tab.Screen
-          name="NewUpdate"
-          component={NewUpdate}
-          options={getOptions("add-circle-outline", "ionicons")}
+          name="UpdateStack"
+          component={UpdateStack}
+          options={{
+            ...getOptions("add-circle-outline", "ionicons"),
+            headerShown: false,
+          }}
         />
         <Tab.Screen
-          name="AddEvent"
-          component={AddEvent}
-          options={getOptions("new-message", "entypo")}
+          name="EventStack"
+          component={EventStack}
+          options={{
+            ...getOptions("new-message", "entypo"),
+            headerShown: false,
+          }}
         />
+
         <Tab.Screen
           name="AdminStack"
           component={SettingStack}
@@ -91,6 +102,40 @@ export default AdminStack = () => {
         />
       </Tab.Navigator>
     </NavigationContainer>
+  );
+};
+
+const UpdateStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="NewUpdate"
+        component={NewUpdate}
+        options={getOptions("add-circle-outline", "ionicons")}
+      />
+      <Stack.Screen
+        name="UpdatePictureScreen"
+        component={UpdatePictureScreen}
+        options={{ headerTitle: "Choose an Image" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const EventStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AddEvent"
+        component={AddEvent}
+        options={getOptions("new-message", "entypo")}
+      />
+      <Stack.Screen
+        name="EventPictureScreen"
+        component={EventPictureScreen}
+        options={{ headerTitle: "Choose an Image" }}
+      />
+    </Stack.Navigator>
   );
 };
 
@@ -110,6 +155,16 @@ const SettingStack = () => {
         name="AddContactImages"
         component={AddContactImages}
         options={{ headerTitle: "Choose Some Images" }}
+      />
+      <Stack.Screen
+        name="ContactPictureScreen"
+        component={ContactPictureScreen}
+        options={{ headerTitle: "Choose Contact Image" }}
+      />
+      <Stack.Screen
+        name="MyContacts"
+        component={Contacts}
+        options={{ headerTitle: "My Contacts" }}
       />
     </Stack.Navigator>
   );

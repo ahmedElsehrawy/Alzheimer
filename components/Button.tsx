@@ -16,30 +16,10 @@ interface componentNameProps {
   styles?: object;
   textStyle?: object;
   icon?: any;
-  disabled?: boolean;
 }
 
 const CustomButton = (props: componentNameProps) => {
-  return props.disabled ? (
-    <TouchableWithoutFeedback
-      style={{ ...styles.buttonContainer, ...props.styles }}
-      onPress={props.buttonFunction}
-    >
-      <View style={styles.buttonContainer}>
-        {props.icon && <Ionicons name={props.icon} size={26} color="white" />}
-        {props.title && (
-          <Text
-            style={{
-              ...styles.text,
-              ...props.textStyle,
-            }}
-          >
-            {props.title}
-          </Text>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
-  ) : (
+  return (
     <TouchableOpacity
       style={{ ...styles.buttonContainer, ...props.styles }}
       onPress={props.buttonFunction}

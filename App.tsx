@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MainStack, AuthStack, AdminStack } from "./navigations";
 //@ts-ignore
 import * as Font from "expo-font";
@@ -29,6 +29,10 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    console.log("nooooo");
+  }, []);
 
   if (!dataLoaded) {
     return (

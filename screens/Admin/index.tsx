@@ -77,6 +77,14 @@ const Admin = (props: AdminProps) => {
           iconLib="material"
         />
         <ListItem
+          onPressFunction={() =>
+            props.navigation.navigate("MyContacts", { admin: true })
+          }
+          text="Contacts"
+          iconName="contacts"
+          iconLib="material"
+        />
+        <ListItem
           onPressFunction={() => props.navigation.navigate("AddContact")}
           text="Add Contact"
           iconName="person-add-outline"

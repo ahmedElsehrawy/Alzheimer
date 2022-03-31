@@ -1,4 +1,5 @@
 import React from "react";
+
 import TakeImage from "../../components/TakeImage";
 
 interface componentNameProps {
@@ -6,11 +7,12 @@ interface componentNameProps {
   route: any;
 }
 
-const UserNewProfilePictureScreen = (props: componentNameProps) => {
+const ContactPictureScreen = (props: componentNameProps) => {
   const { navigation, route } = props;
+
   return (
-    <TakeImage navigation={navigation} route={route} distination="FinalStep" />
+    <TakeImage distination="AddContact" navigation={navigation} route={route} />
   );
 };
 
-export default UserNewProfilePictureScreen;
+export default ContactPictureScreen;

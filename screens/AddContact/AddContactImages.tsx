@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { View, Alert } from "react-native";
+import { Alert, View } from "react-native";
 
 import { AssetsSelector } from "expo-images-picker";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MediaType } from "expo-media-library";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../theme/colors";
+import { CustomError } from "../../modules/helpers/error";
 
 interface componentNameProps {
   navigation: any;
@@ -18,7 +19,7 @@ const AddContactImages = (props: componentNameProps) => {
       "🚀 ~ file: AddContactImages.tsx ~ line 17 ~ onSuccess ~ data",
       data
     );
-    Alert.alert("Done", data.length + "Images selected");
+    Alert.alert("Done", `${data.length} Images selected`);
 
     props.navigation.navigate("AddContact", {
       contactImages: data,

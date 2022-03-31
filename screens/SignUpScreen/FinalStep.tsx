@@ -6,6 +6,9 @@ import Loader from "../../components/Loader";
 import { setToken } from "../../modules/auth";
 import { AuthContext } from "../../modules/store";
 import { CLOUDINARY_URL, userTypes } from "../../constants";
+import { ME } from "../WelcomeScreen";
+import { GET_CONTACTS } from "../Contacts";
+import { GET_MEDICINES } from "../Medicines";
 
 interface componentNameProps {
   route: any;
@@ -57,6 +60,11 @@ const FinalStep = (props: componentNameProps) => {
         avatar: image,
         name: user.fullName,
       },
+      refetchQueries: [
+        { query: ME },
+        { query: GET_CONTACTS },
+        { query: GET_MEDICINES },
+      ],
       onCompleted: (data) => {
         setToken(data?.signup?.token, data?.signup?.user?.role)
           .then(() => {
@@ -81,14 +89,12 @@ const FinalStep = (props: componentNameProps) => {
   );
 
   const handleUploadImage = (image: object) => {
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", "xrhxqiwj");
-    formData.append("cloud_name", "dsnth7hww");
-
     fetch(CLOUDINARY_URL, {
-      body: formData,
+      body: JSON.stringify(image),
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => {

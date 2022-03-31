@@ -14,6 +14,7 @@ import { gql, useMutation } from "@apollo/client";
 import styles from "./styles";
 import colors from "../../theme/colors";
 import { CLOUDINARY_URL } from "../../constants";
+import Loader from "../../components/Loader";
 
 const ADD_CONTACT = gql`
   mutation AddContact(
@@ -46,16 +47,20 @@ const AddContact = (props: componentNameProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState(null);
-  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [mainImage, setMainImage] = useState("");
 
-  const [addContact, { data, loading }] = useMutation(ADD_CONTACT, {
+  const [addContact, { loading: loadingData }] = useMutation(ADD_CONTACT, {
     variables: {
-      images: images,
+      images: [mainImage],
       type: type,
       name: name,
       message: `this is ${name} he is your ${type} he is ${description}`,
       description: description,
-      mainImage: null,
+      mainImage: mainImage,
+    },
+    onCompleted: () => {
+      props.navigation.navigate("MyContacts", { admin: true });
     },
   });
 
@@ -65,16 +70,37 @@ const AddContact = (props: componentNameProps) => {
     color: "#9EA0A4",
   };
 
-  useEffect(() => {
-    if (props.route.params?.contactImages) {
-      //@ts-ignore
-      setImages([...props.route.params?.contactImages]);
-    }
-  }, [props.route]);
+  const handleUploadImage = (image: object) => {
+    setLoading(true);
+    fetch(CLOUDINARY_URL, {
+      body: JSON.stringify(image),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setMainImage(data.url);
+        addContact();
+      })
+      .catch((err) => {
+        console.log(
+          "🚀 ~ file: FinalStep.tsx ~ line 100 ~ handleUploadImage ~ err",
+          err
+        );
+      });
+  };
 
-  useEffect(() => {
-    console.log("imagesFromAdd", images);
-  }, [images]);
+  // useEffect(() => {
+  //   if (props.route?.params?.imageFile) {
+  //     handleUploadImage(props.route?.params?.imageFile);
+  //   }
+  // }, [props.route?.params?.imageFile]);
+
+  if (loadingData || loading) {
+    return <Loader />;
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -120,7 +146,7 @@ const AddContact = (props: componentNameProps) => {
                   backgroundColor: colors.black2,
                 }}
                 buttonFunction={() =>
-                  props.navigation.navigate("AddContactImages")
+                  props.navigation.navigate("ContactPictureScreen")
                 }
               />
               <CustomButton
@@ -130,7 +156,9 @@ const AddContact = (props: componentNameProps) => {
                   height: 70,
                   backgroundColor: colors.black2,
                 }}
-                buttonFunction={() => {}}
+                buttonFunction={() =>
+                  handleUploadImage(props.route?.params?.imageFile)
+                }
               />
             </View>
           </View>

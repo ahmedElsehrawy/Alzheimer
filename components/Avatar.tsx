@@ -15,6 +15,14 @@ interface componentNameProps {
 const Avatar = (props: componentNameProps) => {
   const { imageUrl, diameter, name, identification, type, textColor } = props;
 
+  let editedImageUrl;
+
+  if (imageUrl) {
+    editedImageUrl = imageUrl.includes("https")
+      ? imageUrl
+      : imageUrl.replace("http", "https");
+  }
+
   let commonProperties = {
     width: diameter,
     height: diameter,
@@ -36,11 +44,7 @@ const Avatar = (props: componentNameProps) => {
           ...commonProperties,
         }}
       >
-        <Image
-          source={{ uri: imageUrl }}
-          loadingIndicatorSource={{ uri: imageUrl }}
-          style={commonProperties}
-        />
+        <Image source={{ uri: editedImageUrl }} style={commonProperties} />
       </View>
       {name && (
         <CustomText

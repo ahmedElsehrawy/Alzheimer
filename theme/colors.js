@@ -7,6 +7,7 @@ export default {
   gray: "#ccc",
   darkGray: "#C9C9C9",
   gray3: "#797E86",
+  red: "#d11a2a",
   date: "#B1B1B1",
   blue: "#5098F6",
   darkBlue: "#252932",

@@ -24,9 +24,8 @@ const Invite = (props: componentNameProps) => {
         <CustomButton
           title="Add Manully"
           icon="add-circle-outline"
-          buttonFunction={() => setAddManually(true)}
+          buttonFunction={() => setAddManually(!addManually)}
           styles={{ backgroundColor: colors.black2 }}
-          disabled={addManually}
         />
         {addManually && (
           <View style={styles.manuallyContainer}>

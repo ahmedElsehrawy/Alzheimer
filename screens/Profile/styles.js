@@ -1,5 +1,4 @@
 import { StyleSheet, StatusBar } from "react-native";
-import colors from "../../theme/colors";
 
 export default styles = StyleSheet.create({
   container: {
@@ -10,8 +9,6 @@ export default styles = StyleSheet.create({
   list: {
     width: "100%",
     marginTop: 40,
-    borderWidth: 1,
-    borderTopColor: colors.gray3,
   },
   listItem: {
     width: "100%",
