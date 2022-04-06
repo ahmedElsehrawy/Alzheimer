@@ -1,110 +1,110 @@
-import React, { useEffect, useState } from "react";
+import { gql, useMutation } from "@apollo/client";
+import React, { useState, useEffect } from "react";
 import {
-  Keyboard,
   View,
   TouchableWithoutFeedback,
+  Keyboard,
   ScrollView,
-  Platform,
   Alert,
+  Platform,
 } from "react-native";
 import CustomButton from "../../components/Button";
 import CustomText from "../../components/CustomText";
 import CustomTextInput from "../../components/CustomTextInput";
 //@ts-ignore
 import DateTimePicker from "@react-native-community/datetimepicker";
-import styles from "./styles";
-import colors from "../../theme/colors";
-import { gql, useMutation } from "@apollo/client";
 import Loader from "../../components/Loader";
 import { CLOUDINARY_URL } from "../../constants";
+import colors from "../../theme/colors";
+import styles from "./style";
+import { GET_MEDICINES } from "../Medicines";
 
-const ADD_EVENT = gql`
+const ADD_MEDICINE = gql`
   mutation AddEvent(
     $type: EventType!
+    $days: [DAY!]
     $name: String
     $description: String
-    $eventDate: DateTime
+    $times: [DateTime!]
     $images: [String!]
   ) {
     addEvent(
       type: $type
+      days: $days
       name: $name
       description: $description
-      eventDate: $eventDate
+      times: $times
       images: $images
     ) {
       id
       description
       name
+      days
+      times
+      images
     }
   }
 `;
 
-interface componentNameProps {
+const selectedStyle = {
+  backgroundColor: colors.green,
+};
+
+interface AddMedicineProps {
   navigation: any;
   route: any;
 }
 
-const AddEvent = (props: componentNameProps) => {
+const AddMedicine = (props: AddMedicineProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<any>(null);
   const [images, setImages] = useState<any>([]);
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
+  const [days, setDays] = useState<any>({
+    SAT: false,
+    SUN: false,
+    MON: false,
+    TUE: false,
+    WED: false,
+    THU: false,
+    FRI: false,
+  });
+
+  const [times, setTimes] = useState<any>([]);
+
   const [date, setDate] = useState(
     new Date() // to set default from props or current date
   );
   const [time, setTime] = useState(
     new Date() // to set default from props or current date
   );
-  const [mode, setMode] = useState("date");
+  const [mode, setMode] = useState("time");
   const [show, setShow] = useState(false);
 
-  const [addEvent, { loading, data }] = useMutation(ADD_EVENT, {
+  const [addEvent, { loading, data }] = useMutation(ADD_MEDICINE, {
     variables: {
-      type: "EVENT",
+      type: "MEDICINE",
       name: title,
       description: description,
-      eventDate: time,
       images: images,
     },
+    refetchQueries: [
+      {
+        query: GET_MEDICINES,
+        variables: {
+          where: {
+            type: {
+              equals: "MEDICINE",
+            },
+          },
+        },
+      },
+    ],
     onCompleted: () => {
       props.navigation.navigate("Me");
     },
   });
-
-  const onDateChange = (event: any, selectedValue: any) => {
-    setShow(Platform.OS === "ios");
-    if (mode == "date") {
-      const currentDate = selectedValue || new Date();
-      setDate(currentDate);
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 73 ~ onDateChange ~ currentDate",
-        currentDate
-      );
-      setMode("time");
-      setShow(Platform.OS !== "ios");
-    } else {
-      const selectedTime = selectedValue || new Date();
-      setTime(selectedTime);
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 82 ~ onDateChange ~ selectedTime",
-        selectedTime
-      );
-
-      setShow(Platform.OS === "ios");
-      setMode("date");
-    }
-  };
-
-  const showMode = (currentMode: any) => {
-    setShow(true);
-    setMode(currentMode);
-  };
-
-  const showDatePicker = () => {
-    showMode("date");
-  };
 
   const handleUploadImage = (image: object) => {
     setUploadImageLoading(true);
@@ -139,6 +139,36 @@ const AddEvent = (props: componentNameProps) => {
     }
   };
 
+  const changeDayStatusHandler = (selectedDay: string) => {
+    setDays({ ...days, [selectedDay]: !days[selectedDay] });
+  };
+
+  const onDateChange = (event: any, selectedValue: any) => {
+    setShow(false);
+
+    const selectedTime = selectedValue || new Date();
+
+    setTime(selectedTime);
+    setTimes([...times, selectedTime]);
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 82 ~ onDateChange ~ selectedTime",
+      selectedTime
+    );
+  };
+
+  const showMode = (currentMode: any) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatePicker = () => {
+    showMode("time");
+  };
+
+  useEffect(() => {
+    console.log(days);
+  }, [days]);
+
   useEffect(() => {
     if (props.route?.params?.imageFile) {
       setImage(props.route.params.imageFile);
@@ -148,7 +178,6 @@ const AddEvent = (props: componentNameProps) => {
   if (loading || uploadImageLoading) {
     return <Loader />;
   }
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <ScrollView
@@ -159,7 +188,7 @@ const AddEvent = (props: componentNameProps) => {
         }}
       >
         <View style={styles.container}>
-          <CustomText styles={styles.letsLogYouIn}>Add New Event</CustomText>
+          <CustomText styles={styles.letsLogYouIn}>Add New Medicine</CustomText>
           <CustomTextInput
             placeholder="title"
             value={title}
@@ -170,6 +199,68 @@ const AddEvent = (props: componentNameProps) => {
             value={description}
             onChangeText={(text: string) => setDescription(text)}
           />
+
+          <View>
+            <CustomText children="select days" />
+            <View style={styles.daysContainer}>
+              <CustomButton
+                styles={
+                  days.SAT ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="S"
+                buttonFunction={() => changeDayStatusHandler("SAT")}
+              />
+              <CustomButton
+                styles={
+                  days.SUN ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="S"
+                buttonFunction={() => changeDayStatusHandler("SUN")}
+              />
+              <CustomButton
+                styles={
+                  days.MON ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="M"
+                buttonFunction={() => changeDayStatusHandler("MON")}
+              />
+              <CustomButton
+                styles={
+                  days.TUE ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="T"
+                buttonFunction={() => changeDayStatusHandler("TUE")}
+              />
+              <CustomButton
+                styles={
+                  days.WED ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="W"
+                buttonFunction={() => changeDayStatusHandler("WED")}
+              />
+              <CustomButton
+                styles={
+                  days.THU ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="T"
+                buttonFunction={() => changeDayStatusHandler("THU")}
+              />
+              <CustomButton
+                styles={
+                  days.FRI ? { ...styles.btn, ...selectedStyle } : styles.btn
+                }
+                textStyle={styles.btnText}
+                title="F"
+                buttonFunction={() => changeDayStatusHandler("FRI")}
+              />
+            </View>
+          </View>
 
           <View style={styles.btnContainer}>
             <CustomTextInput
@@ -202,6 +293,14 @@ const AddEvent = (props: componentNameProps) => {
               />
             )}
           </View>
+          {times.map((time: Date) => (
+            <View
+              key={`${time} ${Math.random()}`}
+              style={{ width: "100%", alignItems: "center" }}
+            >
+              <CustomText children={time.toLocaleTimeString()} />
+            </View>
+          ))}
 
           <View style={styles.btnContainer}>
             <CustomButton
@@ -213,7 +312,7 @@ const AddEvent = (props: componentNameProps) => {
                 backgroundColor: colors.black2,
               }}
               buttonFunction={() =>
-                props.navigation.navigate("EventPictureScreen")
+                props.navigation.navigate("UpdatePictureScreen")
               }
             />
             <CustomButton
@@ -232,4 +331,4 @@ const AddEvent = (props: componentNameProps) => {
   );
 };
 
-export default AddEvent;
+export default AddMedicine;

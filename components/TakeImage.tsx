@@ -73,7 +73,7 @@ const TakeImage = (props: componentNameProps) => {
           user: route.params.user,
           imageFile: newFile,
         });
-      } else if (distination === "AddContact") {
+      } else {
         navigation.navigate(distination, {
           imageFile: newFile,
         });

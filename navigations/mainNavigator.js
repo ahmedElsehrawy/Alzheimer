@@ -13,8 +13,11 @@ import { useContext } from "react";
 import fonts from "../theme/fonts";
 import { getOptions } from "../modules/helpers";
 import Medicines from "../screens/Medicines";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Requests from "../screens/Requests";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default MainStack = () => {
   const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
@@ -42,7 +45,7 @@ export default MainStack = () => {
             headerLeftContainerStyle: {
               paddingHorizontal: 10,
             },
-            headerLeft: (props) => {
+            headerLeft: () => {
               return (
                 <TouchableWithoutFeedback
                   style={{
@@ -78,7 +81,7 @@ export default MainStack = () => {
           options={getOptions("today-outline", "ionicons")}
         />
         <Tab.Screen
-          name="Medicines"
+          name="Medicine"
           component={Medicines}
           options={getOptions("medical", "ionicons")}
         />
@@ -93,11 +96,30 @@ export default MainStack = () => {
           options={getOptions("call-outline", "ionicons")}
         />
         <Tab.Screen
-          name="Me"
-          component={Profile}
-          options={getOptions("person-outline", "ionicons")}
+          name="Profile"
+          component={ProfileStack}
+          options={{
+            ...getOptions("admin-panel-settings", "material"),
+            headerShown: false,
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>
+  );
+};
+
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Me"
+        component={Profile}
+        options={{
+          ...getOptions("person-outline", "ionicons"),
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Requests" component={Requests} />
+    </Stack.Navigator>
   );
 };

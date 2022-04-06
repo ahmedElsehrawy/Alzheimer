@@ -19,6 +19,7 @@ import ContactPictureScreen from "../screens/AddContact/ContactPicture";
 import Contacts from "../screens/Contacts";
 import UpdatePictureScreen from "../screens/NewUpdate/UpdatePictureScreen";
 import EventPictureScreen from "../screens/AddEvent/EventPictureScreen";
+import AddMedicine from "../screens/AddMedicine";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,14 @@ export default AdminStack = () => {
         screenOptions={{
           tabBarActiveTintColor: colors.green,
           headerTitleAlign: "center",
+          tabBarItemStyle: {
+            height: 80,
+            paddingBottom: 20,
+          },
+          tabBarStyle: {
+            alignItems: "flex-start",
+            height: 80,
+          },
         }}
       >
         <Tab.Screen
@@ -76,7 +85,12 @@ export default AdminStack = () => {
           options={getOptions("person-add-outline", "ionicons")}
         />
         <Tab.Screen
-          name="UpdateStack"
+          name="Medicine"
+          component={AddMedicine}
+          options={getOptions("medical", "ionicons")}
+        />
+        <Tab.Screen
+          name="New Update"
           component={UpdateStack}
           options={{
             ...getOptions("add-circle-outline", "ionicons"),
@@ -84,7 +98,7 @@ export default AdminStack = () => {
           }}
         />
         <Tab.Screen
-          name="EventStack"
+          name="Event"
           component={EventStack}
           options={{
             ...getOptions("new-message", "entypo"),
@@ -93,7 +107,7 @@ export default AdminStack = () => {
         />
 
         <Tab.Screen
-          name="AdminStack"
+          name="Me"
           component={SettingStack}
           options={{
             ...getOptions("admin-panel-settings", "material"),

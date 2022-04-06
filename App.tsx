@@ -11,6 +11,8 @@ import {
 } from "@apollo/client";
 import { ApolloURI } from "./constants";
 import { AuthProvider } from "./modules/store";
+import { Button, View } from "react-native";
+import * as Notifications from "expo-notifications";
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -29,6 +31,12 @@ export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
+  // const triggerNotificationHandler = () => {
+  //   Notifications.scheduleNotificationAsync({
+
+  //   })
+  // };
 
   useEffect(() => {
     console.log("nooooo");
@@ -55,6 +63,9 @@ export default function App() {
         setIsAdmin={setIsAdmin}
       >
         {!loggedIn ? <AuthStack /> : isAdmin ? <AdminStack /> : <MainStack />}
+        {/* <View style={{ padding: 50 }}>
+          <Button onPress={() => {}} title="trigger" />
+        </View> */}
       </AuthProvider>
     </ApolloProvider>
   );

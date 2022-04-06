@@ -49,7 +49,7 @@ const FinalStep = (props: componentNameProps) => {
 
   const user = route.params.user;
 
-  const [addUser, { data, loading: signUpLoading }] = useMutation(
+  const [addUser, { data, loading: signUpLoading, error }] = useMutation(
     SIGN_UP_MUTATION,
     {
       variables: {

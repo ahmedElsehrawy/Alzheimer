@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import Avatar from "../../components/Avatar";
 import styles from "./styles";
 import { ME } from "../WelcomeScreen";
@@ -7,6 +7,8 @@ import { useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import CustomText from "../../components/CustomText";
 import fonts from "../../theme/fonts";
+import CustomButton from "../../components/Button";
+import colors from "../../theme/colors";
 
 interface ListItemProps {
   text: string;
@@ -42,8 +44,13 @@ const Profile = (props: ProfileProps) => {
   return (
     <View style={styles.container}>
       <Avatar diameter={150} imageUrl={data?.me?.avatar} />
-      <View style={styles.list}>
-        <ListItem text={data?.me?.name} />
+      <ListItem text={data?.me?.name} />
+      <View style={{ width: "100%", alignItems: "center" }}>
+        <CustomButton
+          title="Go To Requests"
+          styles={{ width: "90%", backgroundColor: colors.black2 }}
+          buttonFunction={() => props.navigation.navigate("Requests")}
+        />
       </View>
     </View>
   );

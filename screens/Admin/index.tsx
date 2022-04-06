@@ -19,7 +19,7 @@ interface ListItemProps {
 
 const ListItem = (props: ListItemProps) => {
   return (
-    <View style={styles.listItem}>
+    <View style={{ ...styles.listItem, alignItems: "flex-start" }}>
       <TouchableOpacity
         style={{ flexDirection: "row", alignItems: "center" }}
         onPress={props.onPressFunction}

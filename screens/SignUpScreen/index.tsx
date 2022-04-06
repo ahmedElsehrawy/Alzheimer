@@ -38,15 +38,6 @@ const SignUpScreen = (props: componentNameProps) => {
               })
             }
           />
-          <CustomButton
-            title="I'm a family/friend"
-            styles={{ width: "80%", backgroundColor: colors.orange }}
-            buttonFunction={() =>
-              props.navigation.navigate("Procceed", {
-                type: userTypes.RELATIVE,
-              })
-            }
-          />
         </View>
       </View>
     </TouchableWithoutFeedback>

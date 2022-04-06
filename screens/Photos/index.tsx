@@ -1,11 +1,12 @@
 import * as React from "react";
-import { FlatList, TouchableHighlight } from "react-native";
+import { FlatList, TouchableHighlight, View } from "react-native";
 import styles from "./styles";
 import Avatar from "../../components/Avatar";
 import { LinearGradient } from "expo-linear-gradient";
 import { GET_CONTACTS } from "../Contacts";
 import { useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
+import CustomText from "../../components/CustomText";
 
 const colors = [
   { from: "#000000", to: "#434343" },
@@ -32,6 +33,14 @@ const Photos = () => {
 
   if (!data || loading) {
     return <Loader />;
+  }
+
+  if (data.contacts.count === 0) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <CustomText children="No Contacts Yet" />
+      </View>
+    );
   }
   return (
     <FlatList

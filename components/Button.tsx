@@ -16,6 +16,7 @@ interface componentNameProps {
   styles?: object;
   textStyle?: object;
   icon?: any;
+  iconColor?: any;
 }
 
 const CustomButton = (props: componentNameProps) => {
@@ -24,7 +25,13 @@ const CustomButton = (props: componentNameProps) => {
       style={{ ...styles.buttonContainer, ...props.styles }}
       onPress={props.buttonFunction}
     >
-      {props.icon && <Ionicons name={props.icon} size={26} color="white" />}
+      {props.icon && (
+        <Ionicons
+          name={props.icon}
+          size={26}
+          color={props.iconColor ? props.iconColor : "white"}
+        />
+      )}
       {props.title && (
         <Text style={{ ...styles.text, ...props.textStyle }}>
           {props.title}
