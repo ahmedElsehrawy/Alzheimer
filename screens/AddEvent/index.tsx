@@ -177,17 +177,24 @@ const AddEvent = (props: componentNameProps) => {
               value={`${date.toLocaleDateString()} ${time.toLocaleTimeString()}`}
               style={{
                 width: "70%",
-                height: 60,
+                height: 47,
+                backgroundColor: "#d1f778",
+                borderColor: "transparent",
                 borderRadius: 0,
+                borderTopLeftRadius: 10,
+                borderBottomLeftRadius: 10,
               }}
             />
             <CustomButton
               icon="calendar-outline"
               styles={{
                 width: "30%",
-                height: 60,
+                height: 45,
                 borderRadius: 0,
-                backgroundColor: colors.darkGray,
+                backgroundColor: "#d1f778",
+                borderColor: "transparent",
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
               }}
               buttonFunction={showDatePicker}
             />

@@ -79,11 +79,11 @@ export default AdminStack = () => {
             },
           }}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Invite"
           component={Invite}
           options={getOptions("person-add-outline", "ionicons")}
-        />
+        /> */}
         <Tab.Screen
           name="Medicine"
           component={AddMedicine}
@@ -179,6 +179,11 @@ const SettingStack = () => {
         name="MyContacts"
         component={Contacts}
         options={{ headerTitle: "My Contacts" }}
+      />
+      <Stack.Screen
+        name="Invite"
+        component={Invite}
+        options={{ headerTitle: "Invite" }}
       />
     </Stack.Navigator>
   );

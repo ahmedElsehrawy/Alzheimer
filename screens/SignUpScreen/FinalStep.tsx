@@ -9,6 +9,7 @@ import { CLOUDINARY_URL, userTypes } from "../../constants";
 import { ME } from "../WelcomeScreen";
 import { GET_CONTACTS } from "../Contacts";
 import { GET_MEDICINES } from "../Medicines";
+import { GET_UPDATES } from "../Updates";
 
 interface componentNameProps {
   route: any;
@@ -64,6 +65,16 @@ const FinalStep = (props: componentNameProps) => {
         { query: ME },
         { query: GET_CONTACTS },
         { query: GET_MEDICINES },
+        {
+          query: GET_UPDATES,
+          variables: {
+            where: {
+              type: {
+                equals: "UPDATE",
+              },
+            },
+          },
+        },
       ],
       onCompleted: (data) => {
         setToken(data?.signup?.token, data?.signup?.user?.role)

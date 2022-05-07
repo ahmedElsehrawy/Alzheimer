@@ -22,7 +22,7 @@ export default CustomTextInput;
 const styles = StyleSheet.create({
   textInput: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 10,
     borderRadius: 26,
     width: "80%",
     borderWidth: 1,

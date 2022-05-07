@@ -19,6 +19,7 @@ import { AuthContext } from "../../modules/store";
 import { userTypes } from "../../constants";
 import { ME } from "../WelcomeScreen";
 import { GET_CONTACTS } from "../Contacts";
+import { GET_UPDATES } from "../Updates";
 
 interface componentNameProps {
   navigation: any;
@@ -46,7 +47,20 @@ const SignInScreen = (props: componentNameProps) => {
       password: password,
       email: email,
     },
-    refetchQueries: [{ query: ME }, { query: GET_CONTACTS }],
+    refetchQueries: [
+      { query: ME },
+      { query: GET_CONTACTS },
+      {
+        query: GET_UPDATES,
+        variables: {
+          where: {
+            type: {
+              equals: "UPDATE",
+            },
+          },
+        },
+      },
+    ],
     onCompleted: (data) => {
       console.log("🚀 ~ file: index.tsx ~ line 51 ~ SignInScreen ~ data", data);
 
