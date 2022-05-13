@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "faker.app",
+    "name": "alzheimer",
     "slug": "alzheimer",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,15 +13,19 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.elsehrawy.alzheimer"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.elsehrawy.alzheimer"
     },
     "web": {
       "favicon": "./assets/favicon.png"
