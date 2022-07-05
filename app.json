@@ -4,28 +4,27 @@
     "slug": "alzheimer",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icons/brain-splash.png",
+    "icon": "./assets/icons/logoedited.png",
     "splash": {
-      "image": "./assets/icons/brain-splash.png",
+      "image": "./assets/openingScreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.elsehrawy.alzheimer"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icons/logoedited.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.elsehrawy.alzheimer"
+      "package": "com.elsehrawy.alzheimer",
+      "android.googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"

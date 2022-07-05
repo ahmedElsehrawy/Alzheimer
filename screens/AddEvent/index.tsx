@@ -17,6 +17,7 @@ import colors from "../../theme/colors";
 import { gql, useMutation } from "@apollo/client";
 import Loader from "../../components/Loader";
 import { CLOUDINARY_URL } from "../../constants";
+import fonts from "../../theme/fonts";
 
 const ADD_EVENT = gql`
   mutation AddEvent(
@@ -159,7 +160,9 @@ const AddEvent = (props: componentNameProps) => {
         }}
       >
         <View style={styles.container}>
-          <CustomText styles={styles.letsLogYouIn}>Add New Event</CustomText>
+          <CustomText styles={{ ...styles.letsLogYouIn }}>
+            Add New Event
+          </CustomText>
           <CustomTextInput
             placeholder="title"
             value={title}
@@ -177,9 +180,7 @@ const AddEvent = (props: componentNameProps) => {
               value={`${date.toLocaleDateString()} ${time.toLocaleTimeString()}`}
               style={{
                 width: "70%",
-                height: 47,
-                backgroundColor: "#d1f778",
-                borderColor: "transparent",
+                height: 45,
                 borderRadius: 0,
                 borderTopLeftRadius: 10,
                 borderBottomLeftRadius: 10,
@@ -191,7 +192,7 @@ const AddEvent = (props: componentNameProps) => {
                 width: "30%",
                 height: 45,
                 borderRadius: 0,
-                backgroundColor: "#d1f778",
+                backgroundColor: colors.blue2,
                 borderColor: "transparent",
                 borderTopRightRadius: 10,
                 borderBottomRightRadius: 10,
@@ -210,29 +211,34 @@ const AddEvent = (props: componentNameProps) => {
             )}
           </View>
 
-          <View style={styles.btnContainer}>
-            <CustomButton
-              icon="images-outline"
-              styles={{
-                width: 70,
-                height: 70,
-                borderRadius: 35,
-                backgroundColor: colors.black2,
-              }}
-              buttonFunction={() =>
-                props.navigation.navigate("EventPictureScreen")
-              }
-            />
-            <CustomButton
-              title="ADD"
-              styles={{
-                width: "60%",
-                height: 70,
-                backgroundColor: colors.black2,
-              }}
-              buttonFunction={AddEventProcess}
-            />
-          </View>
+          <CustomButton
+            icon="images-outline"
+            title="select photo"
+            iconSize={20}
+            styles={{
+              width: "80%",
+              height: 45,
+              borderRadius: 8,
+              backgroundColor: colors.blue2,
+            }}
+            textStyle={{ fontSize: fonts.medium }}
+            buttonFunction={() =>
+              props.navigation.navigate("EventPictureScreen")
+            }
+          />
+          <CustomButton
+            icon="add"
+            title="add"
+            iconSize={20}
+            styles={{
+              width: "80%",
+              height: 45,
+              borderRadius: 8,
+              backgroundColor: colors.blue2,
+            }}
+            textStyle={{ fontSize: fonts.medium }}
+            buttonFunction={AddEventProcess}
+          />
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>

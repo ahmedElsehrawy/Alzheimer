@@ -28,19 +28,16 @@ const ListItem = (props: ListItemProps) => {
           <MaterialCommunityIcons
             name={props.iconName}
             size={24}
-            color={colors.adminListTextColor}
+            color={colors.black2}
           />
         ) : (
-          <Ionicons
-            name={props.iconName}
-            size={24}
-            color={colors.adminListTextColor}
-          />
+          <Ionicons name={props.iconName} size={24} color={colors.black2} />
         )}
         <CustomText
           styles={{
             fontSize: fonts.medium,
             marginHorizontal: 10,
+            color: colors.black2,
           }}
         >
           {props.text}
@@ -81,19 +78,19 @@ const Admin = (props: AdminProps) => {
           <ListItem
             onPressFunction={() => props.navigation.navigate("AddContact")}
             text="Add Contact"
-            iconName="person-add-outline"
+            iconName="person-add"
             iconLib="ionic"
           />
           <ListItem
             onPressFunction={() => {}}
             text="Account Settings"
-            iconName="settings-outline"
+            iconName="settings"
             iconLib="ionic"
           />
           <ListItem
             onPressFunction={() => props.navigation.navigate("Invite")}
             text="Invite"
-            iconName="person-add-outline"
+            iconName="person-add"
             iconLib="ionic"
           />
         </View>

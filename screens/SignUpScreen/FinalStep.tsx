@@ -77,13 +77,16 @@ const FinalStep = (props: componentNameProps) => {
         },
       ],
       onCompleted: (data) => {
+        console.log("data", data);
         setToken(data?.signup?.token, data?.signup?.user?.role)
           .then(() => {
             if (data?.signup?.user?.role === userTypes.CARE_GIVER) {
               setIsAdmin(true);
               setLoggedIn(true);
+              props.navigation.navigate("Updates");
             } else {
               setLoggedIn(true);
+              props.navigation.navigate("/Updates");
             }
           })
           .catch((err) => {
@@ -93,7 +96,11 @@ const FinalStep = (props: componentNameProps) => {
             );
           });
       },
-      onError: () => {
+      onError: (error) => {
+        console.log(
+          "🚀 ~ file: FinalStep.tsx ~ line 99 ~ FinalStep ~ error",
+          error
+        );
         setLoggedIn(false);
       },
     }
@@ -141,7 +148,7 @@ const FinalStep = (props: componentNameProps) => {
         <Image source={{ uri: image }} style={styles.image} />
       </View>
       <View style={{ width: "80%" }}>
-        <CustomButton title="SignUp" buttonFunction={() => addUser()} />
+        <CustomButton title="SignUp" buttonFunction={addUser} />
       </View>
     </View>
   );

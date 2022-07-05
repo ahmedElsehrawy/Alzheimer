@@ -20,94 +20,91 @@ import Contacts from "../screens/Contacts";
 import UpdatePictureScreen from "../screens/NewUpdate/UpdatePictureScreen";
 import EventPictureScreen from "../screens/AddEvent/EventPictureScreen";
 import AddMedicine from "../screens/AddMedicine";
+import MedicinePictureScreen from "../screens/AddMedicine/MedicinepictureScreem";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const update_screen_options = {
+  tabBarActiveTintColor: colors.blue2,
+  headerTitleAlign: "center",
+  tabBarItemStyle: {
+    height: 70,
+    paddingBottom: 10,
+  },
+  tabBarStyle: {
+    alignItems: "flex-start",
+    height: 65,
+  },
+};
+
 export default AdminStack = () => {
   const { setLoggedIn, setIsAdmin } = useContext(AuthContext);
-  return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarActiveTintColor: colors.green,
-          headerTitleAlign: "center",
-          tabBarItemStyle: {
-            height: 80,
-            paddingBottom: 20,
-          },
-          tabBarStyle: {
-            alignItems: "flex-start",
-            height: 80,
-          },
+
+  const logout_button = () => {
+    return (
+      <TouchableWithoutFeedback
+        style={{
+          backgroundColor: "transparent",
+        }}
+        onPress={() => {
+          signOut()
+            .then(() => {
+              setLoggedIn(false);
+              setIsAdmin(false);
+            })
+            .catch((err) => {
+              console.log("🚀 ~ file: adminNavigator.js ~ line 54 ~ err", err);
+              setLoggedIn(true);
+            });
         }}
       >
+        <Text style={{ fontSize: fonts.small, fontWeight: "700" }}>Logout</Text>
+      </TouchableWithoutFeedback>
+    );
+  };
+
+  return (
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={update_screen_options}>
         <Tab.Screen
           name="Updates"
           component={Updates}
           options={{
-            ...getOptions("home-outline", "ionicons"),
+            ...getOptions("home", "ionicons"),
             headerLeftContainerStyle: {
               paddingHorizontal: 10,
             },
-            headerLeft: () => {
-              return (
-                <TouchableWithoutFeedback
-                  style={{
-                    backgroundColor: "transparent",
-                  }}
-                  onPress={() => {
-                    signOut()
-                      .then(() => {
-                        setLoggedIn(false);
-                        setIsAdmin(false);
-                      })
-                      .catch((err) => {
-                        console.log(
-                          "🚀 ~ file: adminNavigator.js ~ line 54 ~ err",
-                          err
-                        );
-                        setLoggedIn(true);
-                      });
-                  }}
-                >
-                  <Text style={{ fontSize: fonts.small, fontWeight: "700" }}>
-                    Logout
-                  </Text>
-                </TouchableWithoutFeedback>
-              );
-            },
+            headerLeft: logout_button,
           }}
         />
-        {/* <Tab.Screen
-          name="Invite"
-          component={Invite}
-          options={getOptions("person-add-outline", "ionicons")}
-        /> */}
         <Tab.Screen
           name="Medicine"
-          component={AddMedicine}
-          options={getOptions("medical", "ionicons")}
+          component={MedicineStack}
+          options={{
+            ...getOptions("healing", "material"),
+            headerStyle: { borderBottomColor: colors.gray, borderWidth: 1 },
+          }}
         />
         <Tab.Screen
-          name="New Update"
+          name="Update"
           component={UpdateStack}
           options={{
-            ...getOptions("add-circle-outline", "ionicons"),
-            headerShown: false,
+            ...getOptions("add-circle", "ionicons"),
+            headerStyle: { borderBottomColor: colors.gray, borderWidth: 1 },
           }}
         />
         <Tab.Screen
           name="Event"
           component={EventStack}
           options={{
-            ...getOptions("new-message", "entypo"),
-            headerShown: false,
+            ...getOptions("event", "material"),
+            headerStyle: { borderBottomColor: colors.gray, borderWidth: 1 },
           }}
         />
 
         <Tab.Screen
-          name="Me"
+          name="Profile"
           component={SettingStack}
           options={{
             ...getOptions("admin-panel-settings", "material"),
@@ -125,12 +122,16 @@ const UpdateStack = () => {
       <Stack.Screen
         name="NewUpdate"
         component={NewUpdate}
-        options={getOptions("add-circle-outline", "ionicons")}
+        options={{
+          ...getOptions("add-circle-outline", "ionicons"),
+          headerShown: false,
+          headerTitle: "Medicine",
+        }}
       />
       <Stack.Screen
         name="UpdatePictureScreen"
         component={UpdatePictureScreen}
-        options={{ headerTitle: "Choose an Image" }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -142,12 +143,36 @@ const EventStack = () => {
       <Stack.Screen
         name="AddEvent"
         component={AddEvent}
-        options={getOptions("new-message", "entypo")}
+        options={{
+          ...getOptions("new-message", "entypo"),
+          headerShown: false,
+          headerTitle: "Medicine",
+        }}
       />
       <Stack.Screen
         name="EventPictureScreen"
         component={EventPictureScreen}
-        options={{ headerTitle: "Choose an Image" }}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const MedicineStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AddMedicine"
+        component={AddMedicine}
+        options={{
+          ...getOptions("medical", "ionicons"),
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="UpdatePictureScreen"
+        component={MedicinePictureScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -161,7 +186,8 @@ const SettingStack = () => {
         component={Admin}
         options={{
           ...getOptions("admin-panel-settings", "material"),
-          headerShown: false,
+          headerTitleAlign: "center",
+          headerTitle: "Profile",
         }}
       />
       <Stack.Screen name="AddContact" component={AddContact} />

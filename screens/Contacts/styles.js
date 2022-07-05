@@ -16,4 +16,10 @@ export default styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
   },
+  emptyContainer: {
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

@@ -11,7 +11,11 @@ const MedicinePictureScreen = (props: MedicinePictureScreenProps) => {
   const { navigation, route } = props;
 
   return (
-    <TakeImage distination="Medicine" navigation={navigation} route={route} />
+    <TakeImage
+      distination="AddMedicine"
+      navigation={navigation}
+      route={route}
+    />
   );
 };
 

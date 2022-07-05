@@ -48,7 +48,12 @@ const Profile = (props: ProfileProps) => {
       <View style={{ width: "100%", alignItems: "center" }}>
         <CustomButton
           title="Go To Requests"
-          styles={{ width: "90%", backgroundColor: colors.black2 }}
+          styles={{
+            width: "80%",
+            backgroundColor: colors.blue2,
+            borderRadius: 8,
+          }}
+          textStyle={{ fontSize: fonts.medium }}
           buttonFunction={() => props.navigation.navigate("Requests")}
         />
       </View>

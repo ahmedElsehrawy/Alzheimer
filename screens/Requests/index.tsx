@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import Avatar from "../../components/Avatar";
 import styles from "./style";
@@ -52,6 +52,7 @@ const REFUSE_REQUEST = gql`
 interface RequestsProps {}
 
 const Requests = (props: RequestsProps) => {
+  const [requests, setRequests] = useState<any>([]);
   const { data: requestsData, loading: requestsLoading } = useQuery(REQUESTS, {
     variables: {
       where: {
@@ -98,6 +99,20 @@ const Requests = (props: RequestsProps) => {
     }
   );
 
+  useEffect(() => {
+    if (requestsData?.requests?.nodes) {
+      let filteredRequests = [
+        ...new Map(
+          requestsData?.requests?.nodes.map((item: any, key: any) => [
+            item[key],
+            item,
+          ])
+        ).values(),
+      ];
+      setRequests(filteredRequests);
+    }
+  }, [requestsData]);
+
   if (
     requestsLoading ||
     !requestsData ||
@@ -119,7 +134,7 @@ const Requests = (props: RequestsProps) => {
     <View style={styles.container}>
       <View style={styles.requests}>
         <FlatList
-          data={requestsData.requests.nodes}
+          data={requests}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           renderItem={(itemData) => (

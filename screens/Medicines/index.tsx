@@ -4,19 +4,20 @@ import Avatar from "../../components/Avatar";
 import { gql, useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import styles from "../Contacts/styles";
+import CustomText from "../../components/CustomText";
 
 export const GET_MEDICINES = gql`
-  query Contacts {
-    contacts {
+  query Events($where: EventWhereInput) {
+    events(where: $where) {
       count
       nodes {
         id
         description
-        images
-        mainImage
-        message
         name
-        type
+        images
+        patient {
+          name
+        }
       }
     }
   }
@@ -25,10 +26,26 @@ export const GET_MEDICINES = gql`
 interface MedicinesProps {}
 
 const Medicines = (props: MedicinesProps) => {
-  const { data, loading } = useQuery(GET_MEDICINES);
+  const { data, loading } = useQuery(GET_MEDICINES, {
+    variables: {
+      where: {
+        type: {
+          equals: "MEDICINE",
+        },
+      },
+    },
+  });
 
   if (!data || loading) {
     return <Loader />;
+  }
+
+  if (data?.events.count === 0) {
+    return (
+      <View style={styles.emptyContainer}>
+        <CustomText>No Medicines</CustomText>
+      </View>
+    );
   }
 
   return (

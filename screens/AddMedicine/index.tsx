@@ -18,6 +18,8 @@ import { CLOUDINARY_URL } from "../../constants";
 import colors from "../../theme/colors";
 import styles from "./style";
 import { GET_MEDICINES } from "../Medicines";
+import SelectDay from "../../components/SelectDay";
+import fonts from "../../theme/fonts";
 
 const ADD_MEDICINE = gql`
   mutation AddEvent(
@@ -45,10 +47,6 @@ const ADD_MEDICINE = gql`
     }
   }
 `;
-
-const selectedStyle = {
-  backgroundColor: colors.green,
-};
 
 interface AddMedicineProps {
   navigation: any;
@@ -139,10 +137,6 @@ const AddMedicine = (props: AddMedicineProps) => {
     }
   };
 
-  const changeDayStatusHandler = (selectedDay: string) => {
-    setDays({ ...days, [selectedDay]: !days[selectedDay] });
-  };
-
   const onDateChange = (event: any, selectedValue: any) => {
     setShow(false);
 
@@ -188,7 +182,9 @@ const AddMedicine = (props: AddMedicineProps) => {
         }}
       >
         <View style={styles.container}>
-          <CustomText styles={styles.letsLogYouIn}>Add New Medicine</CustomText>
+          <CustomText styles={{ ...styles.letsLogYouIn }}>
+            Add New Medicine
+          </CustomText>
           <CustomTextInput
             placeholder="title"
             value={title}
@@ -200,86 +196,30 @@ const AddMedicine = (props: AddMedicineProps) => {
             onChangeText={(text: string) => setDescription(text)}
           />
 
-          <View>
-            <CustomText children="select days" />
-            <View style={styles.daysContainer}>
-              <CustomButton
-                styles={
-                  days.SAT ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="S"
-                buttonFunction={() => changeDayStatusHandler("SAT")}
-              />
-              <CustomButton
-                styles={
-                  days.SUN ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="S"
-                buttonFunction={() => changeDayStatusHandler("SUN")}
-              />
-              <CustomButton
-                styles={
-                  days.MON ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="M"
-                buttonFunction={() => changeDayStatusHandler("MON")}
-              />
-              <CustomButton
-                styles={
-                  days.TUE ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="T"
-                buttonFunction={() => changeDayStatusHandler("TUE")}
-              />
-              <CustomButton
-                styles={
-                  days.WED ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="W"
-                buttonFunction={() => changeDayStatusHandler("WED")}
-              />
-              <CustomButton
-                styles={
-                  days.THU ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="T"
-                buttonFunction={() => changeDayStatusHandler("THU")}
-              />
-              <CustomButton
-                styles={
-                  days.FRI ? { ...styles.btn, ...selectedStyle } : styles.btn
-                }
-                textStyle={styles.btnText}
-                title="F"
-                buttonFunction={() => changeDayStatusHandler("FRI")}
-              />
-            </View>
-          </View>
-
           <View style={styles.btnContainer}>
             <CustomTextInput
               editable={false}
               value={`${date.toLocaleDateString()} ${time.toLocaleTimeString()}`}
               style={{
                 width: "70%",
-                height: 60,
+                height: 45,
                 borderRadius: 0,
+                borderTopLeftRadius: 8,
+                borderBottomLeftRadius: 8,
               }}
             />
             <CustomButton
               icon="calendar-outline"
               styles={{
                 width: "30%",
-                height: 60,
+                height: 45,
                 borderRadius: 0,
-                backgroundColor: colors.darkGray,
+                backgroundColor: colors.blue2,
+                borderColor: "transparent",
+                borderTopRightRadius: 8,
+                borderBottomRightRadius: 8,
               }}
+              iconSize={20}
               buttonFunction={showDatePicker}
             />
             {show && (
@@ -302,29 +242,36 @@ const AddMedicine = (props: AddMedicineProps) => {
             </View>
           ))}
 
-          <View style={styles.btnContainer}>
-            <CustomButton
-              icon="images-outline"
-              styles={{
-                width: 70,
-                height: 70,
-                borderRadius: 35,
-                backgroundColor: colors.black2,
-              }}
-              buttonFunction={() =>
-                props.navigation.navigate("UpdatePictureScreen")
-              }
-            />
-            <CustomButton
-              title="ADD"
-              styles={{
-                width: "60%",
-                height: 70,
-                backgroundColor: colors.black2,
-              }}
-              buttonFunction={AddEventProcess}
-            />
-          </View>
+          <SelectDay days={days} setDays={setDays} />
+          <CustomButton
+            icon="images-outline"
+            title="select photo"
+            iconSize={20}
+            styles={{
+              width: "80%",
+              height: 45,
+              borderRadius: 8,
+              backgroundColor: colors.blue2,
+            }}
+            textStyle={{ fontSize: fonts.medium }}
+            buttonFunction={() =>
+              props.navigation.navigate("UpdatePictureScreen")
+            }
+          />
+
+          <CustomButton
+            icon="add"
+            title="add"
+            iconSize={20}
+            styles={{
+              width: "80%",
+              height: 45,
+              borderRadius: 8,
+              backgroundColor: colors.blue2,
+            }}
+            textStyle={{ fontSize: fonts.medium }}
+            buttonFunction={AddEventProcess}
+          />
         </View>
       </ScrollView>
     </TouchableWithoutFeedback>

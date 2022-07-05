@@ -34,13 +34,8 @@ export default function App() {
 
   // const triggerNotificationHandler = () => {
   //   Notifications.scheduleNotificationAsync({
-
   //   })
   // };
-
-  useEffect(() => {
-    console.log("nooooo");
-  }, []);
 
   if (!dataLoaded) {
     return (

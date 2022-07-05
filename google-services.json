@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "38571256066",
+    "project_id": "alzahiemertest",
+    "storage_bucket": "alzahiemertest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38571256066:android:d44c619b8d4a2bbf4f7a1b",
+        "android_client_info": {
+          "package_name": "com.elsehrawy.alzheimer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38571256066-57v00ng1tcv3qaecu69nq7r5sudsgvhi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxUT3D-KmHIKFl6t2UflwPus4kEEMbClE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38571256066-57v00ng1tcv3qaecu69nq7r5sudsgvhi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

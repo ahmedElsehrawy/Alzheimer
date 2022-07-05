@@ -6,7 +6,7 @@ import Avatar from "../../components/Avatar";
 import CustomButton from "../../components/Button";
 import fonts from "../../theme/fonts";
 import styles from "./styles";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import colors from "../../theme/colors";
 import CustomText from "../../components/CustomText";
@@ -35,6 +35,13 @@ interface AdminProps {
 
 const Contacts = (props: AdminProps) => {
   const { data, loading } = useQuery(GET_CONTACTS);
+
+  const [deletContact, { loading: deleteLoading }] = useMutation(
+    DELET_CONTACT,
+    {
+      refetchQueries: [{ query: GET_CONTACTS }],
+    }
+  );
 
   if (!data || loading) {
     return <Loader />;
@@ -91,6 +98,7 @@ const Contacts = (props: AdminProps) => {
                   width: "40%",
                   maxWidth: 220,
                   height: 50,
+                  backgroundColor: colors.blue2,
                 }}
                 textStyle={{
                   fontSize: fonts.medium,
@@ -105,14 +113,22 @@ const Contacts = (props: AdminProps) => {
                   width: "40%",
                   maxWidth: 220,
                   height: 50,
-                  backgroundColor: colors.red,
+                  backgroundColor: colors.darkViolet,
                 }}
                 textStyle={{
                   fontSize: fonts.medium,
                 }}
                 icon="trash-outline"
                 title="Remove"
-                buttonFunction={() => {}}
+                buttonFunction={() =>
+                  deletContact({
+                    variables: {
+                      where: {
+                        id: itemData.item.id,
+                      },
+                    },
+                  })
+                }
               />
             </View>
           ) : (
@@ -129,9 +145,13 @@ const Contacts = (props: AdminProps) => {
                 }}
                 icon="call-outline"
                 title="Call"
-                buttonFunction={() =>
-                  Linking.openURL(call(itemData.item.phone))
-                }
+                buttonFunction={() => {
+                  if (itemData.item.phone) {
+                    Linking.openURL(call(itemData.item.phone));
+                  } else {
+                    Alert.alert("Error", "sorry no phone attached");
+                  }
+                }}
               />
               <CustomButton
                 styles={{
@@ -146,9 +166,13 @@ const Contacts = (props: AdminProps) => {
                 icon="chatbubble-ellipses-outline"
                 title="Text"
                 buttonFunction={() => {
-                  sendSMSMessage(itemData.item.phone).then((result) =>
-                    console.log(result)
-                  );
+                  if (itemData.item.phone) {
+                    sendSMSMessage(itemData.item.phone).then((result) =>
+                      console.log(result)
+                    );
+                  } else {
+                    Alert.alert("Error", "sorry no phone attached");
+                  }
                 }}
               />
             </View>
@@ -160,3 +184,11 @@ const Contacts = (props: AdminProps) => {
 };
 
 export default Contacts;
+
+const DELET_CONTACT = gql`
+  mutation DeleteOneContact($where: ContactWhereUniqueInput!) {
+    deleteOneContact(where: $where) {
+      id
+    }
+  }
+`;

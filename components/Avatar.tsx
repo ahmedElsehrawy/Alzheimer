@@ -17,7 +17,9 @@ const Avatar = (props: componentNameProps) => {
 
   let editedImageUrl;
 
-  if (imageUrl) {
+  if (!imageUrl) {
+    editedImageUrl = null;
+  } else {
     editedImageUrl = imageUrl.includes("https")
       ? imageUrl
       : imageUrl.replace("http", "https");
@@ -44,7 +46,14 @@ const Avatar = (props: componentNameProps) => {
           ...commonProperties,
         }}
       >
-        <Image source={{ uri: editedImageUrl }} style={commonProperties} />
+        {editedImageUrl ? (
+          <Image source={{ uri: editedImageUrl }} style={commonProperties} />
+        ) : (
+          <Image
+            source={require("../assets/avatarreplace.png")}
+            style={commonProperties}
+          />
+        )}
       </View>
       {name && (
         <CustomText

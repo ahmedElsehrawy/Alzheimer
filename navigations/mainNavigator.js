@@ -25,15 +25,15 @@ export default MainStack = () => {
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: colors.green,
+          tabBarActiveTintColor: colors.blue2,
           headerTitleAlign: "center",
           tabBarItemStyle: {
-            height: 80,
-            paddingBottom: 20,
+            height: 70,
+            paddingBottom: 10,
           },
           tabBarStyle: {
             alignItems: "flex-start",
-            height: 80,
+            height: 65,
           },
         }}
       >
@@ -83,7 +83,7 @@ export default MainStack = () => {
         <Tab.Screen
           name="Medicine"
           component={Medicines}
-          options={getOptions("medical", "ionicons")}
+          options={getOptions("healing", "material")}
         />
         <Tab.Screen
           name="Photos"

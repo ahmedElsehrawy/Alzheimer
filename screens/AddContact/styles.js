@@ -37,6 +37,10 @@ export default styles = StyleSheet.create({
   },
   typeSelectContainer: {
     width: "80%",
+    borderColor: colors.gray,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 0,
   },
   btnContainer: {
     width: "80%",

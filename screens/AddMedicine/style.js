@@ -55,5 +55,6 @@ export default styles = StyleSheet.create({
   },
   btnText: {
     fontSize: fonts.medium,
+    marginHorizontal: 0,
   },
 });

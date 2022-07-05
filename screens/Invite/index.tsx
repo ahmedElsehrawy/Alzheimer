@@ -2,9 +2,11 @@ import { gql, useMutation } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { View, Keyboard, TouchableWithoutFeedback, Alert } from "react-native";
 import CustomButton from "../../components/Button";
+import CustomText from "../../components/CustomText";
 import CustomTextInput from "../../components/CustomTextInput";
 import Loader from "../../components/Loader";
 import colors from "../../theme/colors";
+import fonts from "../../theme/fonts";
 import styles from "./styles";
 
 const SEND_TO_BE_CARE_GIVER = gql`
@@ -32,10 +34,6 @@ const Invite = (props: componentNameProps) => {
     }
   );
 
-  if (loading) {
-    return <Loader />;
-  }
-
   useEffect(() => {
     if (data?.sendRequestToBeCareGiver?.id) {
       Alert.alert("Success", "request sent successfully");
@@ -49,9 +47,22 @@ const Invite = (props: componentNameProps) => {
     }
   }, [data, error]);
 
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
+        <CustomText
+          styles={{
+            fontSize: fonts.large,
+            color: colors.blue4,
+            marginVertical: 10,
+          }}
+        >
+          Invite a Patient
+        </CustomText>
         <CustomTextInput
           placeholder="Email Address"
           value={email}
@@ -61,8 +72,9 @@ const Invite = (props: componentNameProps) => {
         <CustomButton
           title="Invite"
           icon="person-add-outline"
-          buttonFunction={() => sendTobeCareGiver()}
-          styles={{ backgroundColor: colors.black2 }}
+          buttonFunction={sendTobeCareGiver}
+          styles={{ backgroundColor: colors.blue2, borderRadius: 8 }}
+          textStyle={{ fontSize: fonts.medium }}
         />
       </View>
     </TouchableWithoutFeedback>

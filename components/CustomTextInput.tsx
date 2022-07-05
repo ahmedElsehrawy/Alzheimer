@@ -14,7 +14,13 @@ interface componentNameProps {
 
 const CustomTextInput = (props: componentNameProps) => {
   let outStyle = props.style ? props.style : {};
-  return <TextInput {...props} style={{ ...styles.textInput, ...outStyle }} />;
+  return (
+    <TextInput
+      {...props}
+      style={{ ...styles.textInput, ...outStyle }}
+      placeholderTextColor={colors.gray}
+    />
+  );
 };
 
 export default CustomTextInput;
@@ -22,8 +28,8 @@ export default CustomTextInput;
 const styles = StyleSheet.create({
   textInput: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 26,
+    height: 45,
+    borderRadius: 8,
     width: "80%",
     borderWidth: 1,
     borderColor: colors.gray,

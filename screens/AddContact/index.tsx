@@ -15,6 +15,8 @@ import styles from "./styles";
 import colors from "../../theme/colors";
 import { CLOUDINARY_URL } from "../../constants";
 import Loader from "../../components/Loader";
+import { GET_CONTACTS } from "../Contacts";
+import fonts from "../../theme/fonts";
 
 const ADD_CONTACT = gql`
   mutation AddContact(
@@ -62,6 +64,7 @@ const AddContact = (props: componentNameProps) => {
     onCompleted: () => {
       props.navigation.navigate("MyContacts", { admin: true });
     },
+    refetchQueries: [{ query: GET_CONTACTS }],
   });
 
   const placeholder = {
@@ -110,7 +113,7 @@ const AddContact = (props: componentNameProps) => {
           style={{ width: "100%", marginTop: 20 }}
         >
           <View style={styles.container}>
-            <CustomText styles={styles.letsLogYouIn}>
+            <CustomText styles={{ ...styles.letsLogYouIn }}>
               Add New Contact
             </CustomText>
             <CustomTextInput
@@ -136,31 +139,36 @@ const AddContact = (props: componentNameProps) => {
               />
             </View>
 
-            <View style={styles.btnContainer}>
-              <CustomButton
-                icon="images-outline"
-                styles={{
-                  width: 70,
-                  height: 70,
-                  borderRadius: 35,
-                  backgroundColor: colors.black2,
-                }}
-                buttonFunction={() =>
-                  props.navigation.navigate("ContactPictureScreen")
-                }
-              />
-              <CustomButton
-                title="ADD"
-                styles={{
-                  width: "60%",
-                  height: 70,
-                  backgroundColor: colors.black2,
-                }}
-                buttonFunction={() =>
-                  handleUploadImage(props.route?.params?.imageFile)
-                }
-              />
-            </View>
+            <CustomButton
+              icon="images-outline"
+              title="select photo"
+              iconSize={20}
+              styles={{
+                width: "80%",
+                height: 45,
+                borderRadius: 8,
+                backgroundColor: colors.blue2,
+              }}
+              textStyle={{ fontSize: fonts.medium }}
+              buttonFunction={() =>
+                props.navigation.navigate("ContactPictureScreen")
+              }
+            />
+            <CustomButton
+              icon="add"
+              title="add"
+              iconSize={20}
+              styles={{
+                width: "80%",
+                height: 45,
+                borderRadius: 8,
+                backgroundColor: colors.blue2,
+              }}
+              textStyle={{ fontSize: fonts.medium }}
+              buttonFunction={() =>
+                handleUploadImage(props.route?.params?.imageFile)
+              }
+            />
           </View>
         </ScrollView>
       </View>
