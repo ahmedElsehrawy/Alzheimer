@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.elsehrawy.alzheimer"
@@ -23,8 +25,8 @@
         "foregroundImage": "./assets/icons/logoedited.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.elsehrawy.alzheimer",
-      "android.googleServicesFile": "./google-services.json"
+      "android.googleServicesFile": "./google-services.json",
+      "package": "com.elsehrawy.alzheimer"
     },
     "web": {
       "favicon": "./assets/favicon.png"

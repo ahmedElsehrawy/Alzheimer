@@ -30,7 +30,6 @@ const TakeImage = (props: componentNameProps) => {
       let base64Img = `data:image/jpg;base64,${data.base64}`;
       let newFile = {
         file: base64Img,
-
         upload_preset: "xrhxqiwj",
       };
 
