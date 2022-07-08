@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, FlatList, Platform, Alert } from "react-native";
+import { View, FlatList, Platform, Alert, Image } from "react-native";
 import { Linking } from "react-native";
 import * as SMS from "expo-sms";
 import Avatar from "../../components/Avatar";
@@ -10,6 +10,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import colors from "../../theme/colors";
 import CustomText from "../../components/CustomText";
+import EmptyPage from "../../components/EmptyPage";
 
 export const GET_CONTACTS = gql`
   query Contacts {
@@ -71,11 +72,7 @@ const Contacts = (props: AdminProps) => {
   };
 
   if (data.contacts.count === 0) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <CustomText children="No Contacts Yet" />
-      </View>
-    );
+    return <EmptyPage text="No Contacts Yet" />;
   }
 
   return (

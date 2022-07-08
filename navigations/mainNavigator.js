@@ -41,7 +41,7 @@ export default MainStack = () => {
           name="Updates"
           component={Updates}
           options={{
-            ...getOptions("home-outline", "ionicons"),
+            ...getOptions("home", "ionicons"),
             headerLeftContainerStyle: {
               paddingHorizontal: 10,
             },
@@ -78,28 +78,28 @@ export default MainStack = () => {
         <Tab.Screen
           name="Today"
           component={Today}
-          options={getOptions("today-outline", "ionicons")}
+          options={getOptions("today", "ionicons")}
         />
         <Tab.Screen
           name="Medicine"
           component={Medicines}
-          options={getOptions("healing", "material")}
+          options={getOptions("injection-syringe", "fontisto")}
         />
-        <Tab.Screen
+        {/* <Tab.Screen
           name="Photos"
           component={Photos}
-          options={getOptions("image-outline", "ionicons")}
-        />
+          options={getOptions("image", "ionicons")}
+        /> */}
         <Tab.Screen
           name="Contacts"
           component={Contacts}
-          options={getOptions("call-outline", "ionicons")}
+          options={getOptions("call", "ionicons")}
         />
         <Tab.Screen
           name="Profile"
           component={ProfileStack}
           options={{
-            ...getOptions("admin-panel-settings", "material"),
+            ...getOptions("person", "ionicons"),
             headerShown: false,
           }}
         />
@@ -115,8 +115,8 @@ const ProfileStack = () => {
         name="Me"
         component={Profile}
         options={{
-          ...getOptions("person-outline", "ionicons"),
-          headerShown: false,
+          headerTitleAlign: "center",
+          headerTitle: "Profile",
         }}
       />
       <Stack.Screen name="Requests" component={Requests} />

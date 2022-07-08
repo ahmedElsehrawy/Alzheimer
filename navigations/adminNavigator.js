@@ -21,6 +21,7 @@ import UpdatePictureScreen from "../screens/NewUpdate/UpdatePictureScreen";
 import EventPictureScreen from "../screens/AddEvent/EventPictureScreen";
 import AddMedicine from "../screens/AddMedicine";
 import MedicinePictureScreen from "../screens/AddMedicine/MedicinepictureScreem";
+import Location from "../screens/Location";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -205,6 +206,11 @@ const SettingStack = () => {
         name="MyContacts"
         component={Contacts}
         options={{ headerTitle: "My Contacts" }}
+      />
+      <Stack.Screen
+        name="Location"
+        component={Location}
+        options={{ headerTitle: "Location" }}
       />
       <Stack.Screen
         name="Invite"

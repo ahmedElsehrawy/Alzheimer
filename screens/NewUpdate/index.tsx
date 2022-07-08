@@ -65,11 +65,14 @@ const NewUpdate = (props: componentNameProps) => {
               equals: "UPDATE",
             },
           },
+          orderBy: {
+            id: "desc",
+          },
         },
       },
     ],
     onCompleted: () => {
-      props.navigation.navigate("Me");
+      props.navigation.navigate("Updates");
     },
   });
 

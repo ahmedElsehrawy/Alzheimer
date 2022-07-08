@@ -1,4 +1,10 @@
-import { Ionicons, Entypo, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  Entypo,
+  MaterialIcons,
+  MaterialCommunityIcons,
+  Fontisto,
+} from "@expo/vector-icons";
 
 export const getOptions = (name, type) => {
   if (type === "ionicons") {
@@ -15,6 +21,12 @@ export const getOptions = (name, type) => {
     return {
       tabBarIcon: ({ color }) => (
         <MaterialIcons name={name} size={26} color={color} />
+      ),
+    };
+  } else if (type === "fontisto") {
+    return {
+      tabBarIcon: ({ color }) => (
+        <Fontisto name={name} size={26} color={color} />
       ),
     };
   }

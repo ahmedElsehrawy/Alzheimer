@@ -81,10 +81,16 @@ const Admin = (props: AdminProps) => {
             iconName="person-add"
             iconLib="ionic"
           />
-          <ListItem
+          {/* <ListItem
             onPressFunction={() => {}}
             text="Account Settings"
             iconName="settings"
+            iconLib="ionic"
+          /> */}
+          <ListItem
+            onPressFunction={() => props.navigation.navigate("Location")}
+            text="Patient Location"
+            iconName="location"
             iconLib="ionic"
           />
           <ListItem

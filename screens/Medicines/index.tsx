@@ -4,7 +4,7 @@ import Avatar from "../../components/Avatar";
 import { gql, useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import styles from "../Contacts/styles";
-import CustomText from "../../components/CustomText";
+import EmptyPage from "../../components/EmptyPage";
 
 export const GET_MEDICINES = gql`
   query Events($where: EventWhereInput) {
@@ -35,27 +35,24 @@ const Medicines = (props: MedicinesProps) => {
       },
     },
   });
+  console.log("🚀 ~ file: index.tsx ~ line 39 ~ Medicines ~ data", data);
 
   if (!data || loading) {
     return <Loader />;
   }
 
-  if (data?.events.count === 0) {
-    return (
-      <View style={styles.emptyContainer}>
-        <CustomText>No Medicines</CustomText>
-      </View>
-    );
+  if (data?.events?.count === 0) {
+    return <EmptyPage text="No Medicines Yet" />;
   }
 
   return (
     <FlatList
-      data={data?.contacts?.nodes}
+      data={data?.events?.nodes}
       keyExtractor={(item) => item.id.toString()}
       renderItem={(itemData) => (
         <View style={styles.item}>
           <Avatar
-            imageUrl={itemData.item.mainImage}
+            imageUrl={itemData.item.images[0]}
             name={itemData.item.name}
             identification={itemData.item.description}
             diameter={130}

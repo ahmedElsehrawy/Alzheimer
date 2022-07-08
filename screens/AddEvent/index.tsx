@@ -70,7 +70,12 @@ const AddEvent = (props: componentNameProps) => {
       images: images,
     },
     onCompleted: () => {
-      props.navigation.navigate("Me");
+      Alert.alert("successed", "Event Added Successfully");
+      setTitle("");
+      setDescription("");
+      setImage(null);
+      setDate(new Date());
+      setTime(new Date());
     },
   });
 

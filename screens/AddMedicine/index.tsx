@@ -6,7 +6,6 @@ import {
   Keyboard,
   ScrollView,
   Alert,
-  Platform,
 } from "react-native";
 import CustomButton from "../../components/Button";
 import CustomText from "../../components/CustomText";
@@ -100,7 +99,22 @@ const AddMedicine = (props: AddMedicineProps) => {
       },
     ],
     onCompleted: () => {
-      props.navigation.navigate("Me");
+      Alert.alert("successed", "Medicine Added Successfully");
+      setTitle("");
+      setDescription("");
+      setImage(null);
+      setDays({
+        SAT: false,
+        SUN: false,
+        MON: false,
+        TUE: false,
+        WED: false,
+        THU: false,
+        FRI: false,
+      });
+      setDate(new Date());
+      setTimes([]);
+      setTime(new Date());
     },
   });
 

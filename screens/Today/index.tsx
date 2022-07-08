@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import { View, FlatList, Image } from "react-native";
 import CustomText from "../../components/CustomText";
+import EmptyPage from "../../components/EmptyPage";
 import Loader from "../../components/Loader";
 import fonts from "../../theme/fonts";
 import styles from "./styles";
@@ -62,6 +63,10 @@ const Today = (props: componentNameProps) => {
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (data?.events?.count === 0) {
+    return <EmptyPage text="No Events Today" />;
   }
 
   return (

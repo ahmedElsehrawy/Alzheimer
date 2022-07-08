@@ -7,6 +7,7 @@ import CustomText from "../../components/CustomText";
 import Loader from "../../components/Loader";
 import CustomButton from "../../components/Button";
 import colors from "../../theme/colors";
+import EmptyPage from "../../components/EmptyPage";
 
 const REQUESTS = gql`
   query Requests($where: RequestWhereInput) {
@@ -123,11 +124,7 @@ const Requests = (props: RequestsProps) => {
   }
 
   if (requestsData.requests.count === 0) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <CustomText children="No Requests In this Moment" />
-      </View>
-    );
+    return <EmptyPage text="No Requests In this Moment" />;
   }
 
   return (

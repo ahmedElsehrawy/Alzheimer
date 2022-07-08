@@ -11,7 +11,7 @@ export default styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 8,
-    paddingTop: 15,
+    paddingTop: 8,
   },
   senderAndDate: {
     flexDirection: "row",

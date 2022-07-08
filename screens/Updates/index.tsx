@@ -2,13 +2,18 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { View, FlatList, Image } from "react-native";
 import CustomText from "../../components/CustomText";
+import EmptyPage from "../../components/EmptyPage";
 import Loader from "../../components/Loader";
+// import Map from "../../components/MapView";
 import fonts from "../../theme/fonts";
 import styles from "./styles";
 
 export const GET_UPDATES = gql`
-  query Events($where: EventWhereInput) {
-    events(where: $where) {
+  query Events(
+    $where: EventWhereInput
+    $orderBy: EventOrderByWithRelationInput
+  ) {
+    events(where: $where, orderBy: $orderBy) {
       count
       nodes {
         id
@@ -34,6 +39,9 @@ const Updates = (props: componentNameProps) => {
           equals: "UPDATE",
         },
       },
+      orderBy: {
+        id: "desc",
+      },
     },
   });
 
@@ -57,6 +65,10 @@ const Updates = (props: componentNameProps) => {
   if (loading) {
     return <Loader />;
   }
+
+  if (data?.events?.count === 0) {
+    return <EmptyPage text="No Updates Yet" />;
+  }
   return (
     <FlatList
       data={transformedUpdated}
@@ -75,12 +87,9 @@ const Updates = (props: componentNameProps) => {
               {itemData.item.name}
             </CustomText>
             <View style={styles.senderAndDate}>
-              <CustomText styles={{ fontSize: fonts.small, fontWeight: "400" }}>
+              <CustomText styles={{ fontSize: 14, fontWeight: "300" }}>
                 {`From ${itemData.item.patient.name} (CARE GIVER)`}
               </CustomText>
-              {/* <CustomText styles={{ fontSize: 14, color: colors.date }}>
-                {itemData.item.date.toLocaleTimeString()}
-              </CustomText> */}
             </View>
           </View>
         </View>
