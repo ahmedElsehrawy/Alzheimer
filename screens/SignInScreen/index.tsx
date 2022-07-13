@@ -53,9 +53,14 @@ const SignInScreen = (props: componentNameProps) => {
       {
         query: GET_UPDATES,
         variables: {
-          where: {
-            type: {
-              equals: "UPDATE",
+          variables: {
+            where: {
+              type: {
+                equals: "UPDATE",
+              },
+            },
+            orderBy: {
+              id: "desc",
             },
           },
         },

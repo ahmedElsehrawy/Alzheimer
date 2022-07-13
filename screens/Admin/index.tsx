@@ -69,7 +69,10 @@ const Admin = (props: AdminProps) => {
         <View style={styles.list}>
           <ListItem
             onPressFunction={() =>
-              props.navigation.navigate("MyContacts", { admin: true })
+              props.navigation.navigate("MyContacts", {
+                screen: "Contacts",
+                params: { admin: true },
+              })
             }
             text="Contacts"
             iconName="contacts"

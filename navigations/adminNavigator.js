@@ -22,6 +22,7 @@ import EventPictureScreen from "../screens/AddEvent/EventPictureScreen";
 import AddMedicine from "../screens/AddMedicine";
 import MedicinePictureScreen from "../screens/AddMedicine/MedicinepictureScreem";
 import Location from "../screens/Location";
+import EditContact from "../screens/EditContact";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -204,8 +205,8 @@ const SettingStack = () => {
       />
       <Stack.Screen
         name="MyContacts"
-        component={Contacts}
-        options={{ headerTitle: "My Contacts" }}
+        component={ContactStack}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Location"
@@ -216,6 +217,23 @@ const SettingStack = () => {
         name="Invite"
         component={Invite}
         options={{ headerTitle: "Invite" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const ContactStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Contacts"
+        component={Contacts}
+        options={{ headerTitle: "My Contacts" }}
+      />
+      <Stack.Screen
+        name="EditContact"
+        component={EditContact}
+        options={{ headerTitle: "Edit Contact" }}
       />
     </Stack.Navigator>
   );

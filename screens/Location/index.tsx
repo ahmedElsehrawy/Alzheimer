@@ -1,10 +1,11 @@
-import { View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import CustomButton from "../../components/Button";
 import styles from "../AddContact/styles";
 import colors from "../../theme/colors";
 import { gql, useQuery } from "@apollo/client";
 import CustomTextInput from "../../components/CustomTextInput";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 type Props = {};
 
@@ -22,8 +23,8 @@ const Location = (props: Props) => {
   const { data, loading, refetch } = useQuery(GET_PATIENT_LOCATION, {
     skip: fetchNow,
   });
-  const [longitude, setLongitude] = useState<string>("");
-  const [latitude, setLatitude] = useState<string>("");
+  const [longitude, setLongitude] = useState<any>(null);
+  const [latitude, setLatitude] = useState<any>(null);
 
   const getLocation = () => {
     setFetchNow(false);
@@ -32,13 +33,13 @@ const Location = (props: Props) => {
 
   useEffect(() => {
     if (data) {
-      setLongitude(`longitude: ${data?.patientLocation?.longitude.toString()}`);
-      setLatitude(`latitude: ${data?.patientLocation?.latitude.toString()}`);
+      setLongitude(+data?.patientLocation?.longitude);
+      setLatitude(+data?.patientLocation?.latitude);
     }
   }, [data]);
 
   return (
-    <View style={styles.container}>
+    <View style={mapStyles.container}>
       <CustomButton
         title="Get Location"
         buttonFunction={getLocation}
@@ -49,10 +50,47 @@ const Location = (props: Props) => {
           backgroundColor: colors.blue2,
         }}
       />
-      <CustomTextInput value={latitude} placeholder="latitude" />
-      <CustomTextInput value={longitude} placeholder="longitude" />
+      {longitude && !fetchNow && (
+        <View>
+          <MapView
+            style={mapStyles.map}
+            provider={PROVIDER_GOOGLE}
+            region={{
+              latitude: latitude,
+              longitude: longitude,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            }}
+          />
+          <Marker
+            coordinate={{ latitude: latitude, longitude: longitude }}
+            title="Title"
+            description="title desc"
+          >
+            <View>
+              <Image
+                style={{ width: 40, height: 40 }}
+                source={require("../../assets/map_marker.png")}
+              />
+            </View>
+          </Marker>
+        </View>
+      )}
     </View>
   );
 };
+
+const mapStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  map: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height - 200,
+  },
+});
 
 export default Location;

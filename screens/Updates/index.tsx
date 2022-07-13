@@ -88,7 +88,7 @@ const Updates = (props: componentNameProps) => {
             </CustomText>
             <View style={styles.senderAndDate}>
               <CustomText styles={{ fontSize: 14, fontWeight: "300" }}>
-                {`From ${itemData.item.patient.name} (CARE GIVER)`}
+                {`From (CARE GIVER)`}
               </CustomText>
             </View>
           </View>

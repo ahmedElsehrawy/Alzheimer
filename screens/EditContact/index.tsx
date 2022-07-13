@@ -1,62 +1,72 @@
-import React, { useEffect, useState } from "react";
 import {
-  Keyboard,
   View,
+  Text,
   TouchableWithoutFeedback,
+  Keyboard,
   ScrollView,
+  Alert,
 } from "react-native";
-import CustomButton from "../../components/Button";
-import CustomText from "../../components/CustomText";
-import CustomTextInput from "../../components/CustomTextInput";
-import RNPickerSelect from "react-native-picker-select";
+import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
-
-import styles from "./styles";
-import colors from "../../theme/colors";
+import { GET_CONTACTS } from "../Contacts";
 import { CLOUDINARY_URL } from "../../constants";
 import Loader from "../../components/Loader";
-import { GET_CONTACTS } from "../Contacts";
+import styles from "../AddContact/styles";
+import CustomText from "../../components/CustomText";
+import CustomTextInput from "../../components/CustomTextInput";
+import CustomButton from "../../components/Button";
+import RNPickerSelect from "react-native-picker-select";
+import colors from "../../theme/colors";
 import fonts from "../../theme/fonts";
 
-const ADD_CONTACT = gql`
-  mutation AddContact(
+type Props = {
+  navigation: any;
+  route: any;
+};
+
+const UPDATA_CONTACT = gql`
+  mutation Mutation(
+    $updateContactId: Int!
     $images: [String!]!
     $type: ContactType!
-    $mainImage: String
-    $description: String
-    $message: String
     $name: String
+    $description: String
     $phone: String
+    $message: String
+    $mainImage: String
   ) {
-    addContact(
+    updateContact(
+      id: $updateContactId
       images: $images
       type: $type
-      mainImage: $mainImage
-      description: $description
-      message: $message
       name: $name
+      description: $description
       phone: $phone
+      message: $message
+      mainImage: $mainImage
     ) {
       id
     }
   }
 `;
 
-interface componentNameProps {
-  navigation: any;
-  route: any;
-}
-
-const AddContact = (props: componentNameProps) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [type, setType] = useState(null);
+const EditContact = (props: Props) => {
+  const [name, setName] = useState(props?.route?.params.itemData.item.name);
+  const [description, setDescription] = useState(
+    props?.route?.params.itemData.item.description
+  );
+  const [type, setType] = useState(props?.route?.params.itemData.item.type);
   const [loading, setLoading] = useState(false);
-  const [mainImage, setMainImage] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [mainImage, setMainImage] = useState(
+    props?.route?.params.itemData.item.mainImage
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    props?.route?.params.itemData.item.phone
+  );
 
-  const [addContact, { loading: loadingData }] = useMutation(ADD_CONTACT, {
+  const [addContact, { loading: loadingData }] = useMutation(UPDATA_CONTACT, {
     variables: {
+      updateContactId: props?.route?.params.itemData.item.id,
       images: [mainImage],
       type: type,
       name: name,
@@ -65,10 +75,11 @@ const AddContact = (props: componentNameProps) => {
       mainImage: mainImage,
       phone: phoneNumber,
     },
-    onCompleted: () => {
-      props.navigation.navigate("MyContacts", { admin: true });
-    },
+
     refetchQueries: [{ query: GET_CONTACTS }],
+    onCompleted: () => {
+      Alert.alert("Success", "Contact Updated");
+    },
   });
 
   const placeholder = {
@@ -109,6 +120,8 @@ const AddContact = (props: componentNameProps) => {
     return <Loader />;
   }
 
+  console.log("params", props?.route?.params.itemData.item);
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
@@ -118,7 +131,7 @@ const AddContact = (props: componentNameProps) => {
         >
           <View style={styles.container}>
             <CustomText styles={{ ...styles.letsLogYouIn }}>
-              Add New Contact
+              Update Contact
             </CustomText>
             <CustomTextInput
               placeholder="Name"
@@ -165,7 +178,7 @@ const AddContact = (props: componentNameProps) => {
             />
             <CustomButton
               icon="add"
-              title="add"
+              title="update"
               iconSize={20}
               styles={{
                 width: "80%",
@@ -174,9 +187,13 @@ const AddContact = (props: componentNameProps) => {
                 backgroundColor: colors.blue2,
               }}
               textStyle={{ fontSize: fonts.medium }}
-              buttonFunction={() =>
-                handleUploadImage(props.route?.params?.imageFile)
-              }
+              buttonFunction={() => {
+                if (props?.route?.params.itemData.item) {
+                  addContact();
+                } else {
+                  handleUploadImage(props.route?.params?.imageFile);
+                }
+              }}
             />
           </View>
         </ScrollView>
@@ -185,4 +202,4 @@ const AddContact = (props: componentNameProps) => {
   );
 };
 
-export default AddContact;
+export default EditContact;

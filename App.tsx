@@ -1,24 +1,22 @@
-import {useContext, useEffect, useState} from "react";
-import {MainStack, AuthStack, AdminStack} from "./navigations";
+import { useContext, useEffect, useState } from "react";
+import { MainStack, AuthStack, AdminStack } from "./navigations";
 //@ts-ignore
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
   HttpLink,
   useMutation,
   gql,
   useQuery,
 } from "@apollo/client";
-import {ApolloURI} from "./constants";
-import {AuthProvider, AuthContext} from "./modules/store";
-import {Alert, Button, View} from "react-native";
+import { ApolloURI } from "./constants";
+import { AuthContext } from "./modules/store";
+import { Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 import useLocation from "./modules/useLocation";
-import {signOut} from "./modules/auth/index";
-import {ME} from "./screens/WelcomeScreen";
+import { ME } from "./screens/WelcomeScreen";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -59,20 +57,20 @@ export async function registerForPushNotificationsAsync() {
 }
 
 export const client = new ApolloClient({
-  link: new HttpLink({uri: ApolloURI}),
+  link: new HttpLink({ uri: ApolloURI }),
   cache: new InMemoryCache(),
 });
 
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  const {loggedIn: loggedInContext, isAdmin: isAdminContext} =
+  const { loggedIn: loggedInContext, isAdmin: isAdminContext } =
     useContext(AuthContext);
 
-  const [updatePatientLocation, {loading, data}] = useMutation(
+  const [updatePatientLocation, { loading, data }] = useMutation(
     UPDATE_PATIENT_LOCATION
   );
-  const {data: meData} = useQuery(ME);
+  const { data: meData } = useQuery(ME);
 
   const MINUTE_MS = 10000;
 

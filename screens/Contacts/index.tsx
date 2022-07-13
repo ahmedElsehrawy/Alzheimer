@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, FlatList, Platform, Alert, Image } from "react-native";
+import { View, FlatList, Platform, Alert } from "react-native";
 import { Linking } from "react-native";
 import * as SMS from "expo-sms";
 import Avatar from "../../components/Avatar";
@@ -9,7 +9,6 @@ import styles from "./styles";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Loader from "../../components/Loader";
 import colors from "../../theme/colors";
-import CustomText from "../../components/CustomText";
 import EmptyPage from "../../components/EmptyPage";
 
 export const GET_CONTACTS = gql`
@@ -32,15 +31,20 @@ export const GET_CONTACTS = gql`
 
 interface AdminProps {
   route: any;
+  navigation: any;
 }
 
 const Contacts = (props: AdminProps) => {
   const { data, loading } = useQuery(GET_CONTACTS);
+  console.log("🚀 ~ file: index.tsx ~ line 38 ~ Contacts ~ data", data);
 
   const [deletContact, { loading: deleteLoading }] = useMutation(
     DELET_CONTACT,
     {
       refetchQueries: [{ query: GET_CONTACTS }],
+      onCompleted: () => {
+        Alert.alert("Success", "Contact Deleted");
+      },
     }
   );
 
@@ -102,7 +106,11 @@ const Contacts = (props: AdminProps) => {
                 }}
                 icon="pencil"
                 title="Edit"
-                buttonFunction={() => {}}
+                buttonFunction={() => {
+                  props?.navigation?.navigate("EditContact", {
+                    itemData: itemData,
+                  });
+                }}
               />
               <CustomButton
                 styles={{

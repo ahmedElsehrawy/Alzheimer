@@ -45,6 +45,7 @@ const Today = (props: componentNameProps) => {
     },
     skip: !date || !maxDate,
   });
+  console.log("🚀 ~ file: index.tsx ~ line 48 ~ Today ~ data", data);
 
   useEffect(() => {
     var dt = new Date();
@@ -56,6 +57,10 @@ const Today = (props: componentNameProps) => {
     let newDate = new Date(year, month, day, 0, 0, 0).toISOString();
 
     setMaxDate(newDate);
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 59 ~ useEffect ~ newDate",
+      newDate
+    );
     setDate(new Date().toISOString());
   }, []);
 
@@ -77,7 +82,7 @@ const Today = (props: componentNameProps) => {
         <View style={styles.updateItem}>
           {itemData.item.images.length > 0 && (
             <Image
-              source={{ uri: itemData.item.images[0] }}
+              source={{ uri: itemData.item.images[0].replace("http", "https") }}
               style={styles.image}
               resizeMode="cover"
             />
