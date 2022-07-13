@@ -1,6 +1,6 @@
-import { gql, useQuery } from "@apollo/client";
-import React, { useState, useEffect } from "react";
-import { View, FlatList, Image } from "react-native";
+import {gql, useQuery} from "@apollo/client";
+import React, {useState, useEffect} from "react";
+import {View, FlatList, Image} from "react-native";
 import CustomText from "../../components/CustomText";
 import EmptyPage from "../../components/EmptyPage";
 import Loader from "../../components/Loader";
@@ -31,7 +31,7 @@ const Today = (props: componentNameProps) => {
   const [date, setDate] = useState<any>(null);
   const [maxDate, setMaxDate] = useState<any>(null);
 
-  const { data, loading } = useQuery(EVENTS_FOR_TODAY, {
+  const {data, loading, refetch} = useQuery(EVENTS_FOR_TODAY, {
     variables: {
       where: {
         type: {
@@ -70,29 +70,32 @@ const Today = (props: componentNameProps) => {
     return <Loader />;
   }
 
-  if (data?.events?.count === 0) {
-    return <EmptyPage text="No Events Today" />;
-  }
+  // if (data?.events?.count === 0) {
+  //   return <EmptyPage text="No Events Today" />;
+  // }
 
   return (
     <FlatList
       data={data?.events?.nodes}
       keyExtractor={(item) => item.id.toString()}
+      onRefresh={refetch}
+      refreshing={loading}
+      ListEmptyComponent={<EmptyPage text="No Events Today" />}
       renderItem={(itemData) => (
         <View style={styles.updateItem}>
           {itemData.item.images.length > 0 && (
             <Image
-              source={{ uri: itemData.item.images[0].replace("http", "https") }}
+              source={{uri: itemData.item.images[0].replace("http", "https")}}
               style={styles.image}
               resizeMode="cover"
             />
           )}
           <View style={styles.content}>
-            <CustomText styles={{ fontSize: fonts.large, fontWeight: "bold" }}>
+            <CustomText styles={{fontSize: fonts.large, fontWeight: "bold"}}>
               {itemData.item.name}
             </CustomText>
             <View style={styles.senderAndDate}>
-              <CustomText styles={{ fontSize: fonts.small, fontWeight: "400" }}>
+              <CustomText styles={{fontSize: fonts.small, fontWeight: "400"}}>
                 {` ${itemData.item.description}`}
               </CustomText>
               {/* <CustomText styles={{ fontSize: 14, color: colors.date }}>
