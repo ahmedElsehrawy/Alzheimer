@@ -112,12 +112,22 @@ const TakeImage = (props: componentNameProps) => {
               );
             }}
           >
-            <MaterialIcons name="flip-camera-android" size={24} color="#fff" />
+            {
+              //@ts-ignore
+              <MaterialIcons
+                name="flip-camera-android"
+                size={24}
+                color="#fff"
+              />
+            }
           </TouchableOpacity>
         </View>
         <View style={{ ...styles.buttonContainer, justifyContent: "center" }}>
           <TouchableOpacity style={styles.bigButton} onPress={takeImageHandler}>
-            <MaterialIcons name="camera" size={60} color="#fff" />
+            {
+              //@ts-ignore
+              <MaterialIcons name="camera" size={60} color="#fff" />
+            }
           </TouchableOpacity>
         </View>
       </Camera>
@@ -130,7 +140,10 @@ const TakeImage = (props: componentNameProps) => {
             pickImage();
           }}
         >
-          <AntDesign name="picture" size={80} color="#515BD4" />
+          {
+            //@ts-ignore
+            <AntDesign name="picture" size={80} color="#515BD4" />
+          }
         </TouchableOpacity>
       </View>
     </View>

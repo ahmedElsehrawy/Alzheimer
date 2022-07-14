@@ -110,12 +110,6 @@ const EditContact = (props: Props) => {
       });
   };
 
-  // useEffect(() => {
-  //   if (props.route?.params?.imageFile) {
-  //     handleUploadImage(props.route?.params?.imageFile);
-  //   }
-  // }, [props.route?.params?.imageFile]);
-
   if (loadingData || loading) {
     return <Loader />;
   }
@@ -149,16 +143,19 @@ const EditContact = (props: Props) => {
               onChangeText={(text: string) => setPhoneNumber(text)}
             />
             <View style={styles.typeSelectContainer}>
-              <RNPickerSelect
-                value={type}
-                placeholder={placeholder}
-                onValueChange={(value) => setType(value)}
-                items={[
-                  { label: "friend", value: "FRIEND" },
-                  { label: "family", value: "FAMILY" },
-                  { label: "neighbour", value: "NEIGHBOUR" },
-                ]}
-              />
+              {
+                //@ts-ignore
+                <RNPickerSelect
+                  value={type}
+                  placeholder={placeholder}
+                  onValueChange={(value) => setType(value)}
+                  items={[
+                    { label: "friend", value: "FRIEND" },
+                    { label: "family", value: "FAMILY" },
+                    { label: "neighbour", value: "NEIGHBOUR" },
+                  ]}
+                />
+              }
             </View>
 
             <CustomButton
@@ -173,7 +170,9 @@ const EditContact = (props: Props) => {
               }}
               textStyle={{ fontSize: fonts.medium }}
               buttonFunction={() =>
-                props.navigation.navigate("ContactPictureScreen")
+                props.navigation.navigate("EditContactPictureScreen", {
+                  itenData: props?.route?.params.itemData,
+                })
               }
             />
             <CustomButton

@@ -1,6 +1,6 @@
-import {gql, useQuery} from "@apollo/client";
-import React, {useState, useEffect} from "react";
-import {View, FlatList, Image} from "react-native";
+import { gql, useQuery } from "@apollo/client";
+import React, { useState, useEffect } from "react";
+import { View, FlatList, Image } from "react-native";
 import CustomText from "../../components/CustomText";
 import EmptyPage from "../../components/EmptyPage";
 import Loader from "../../components/Loader";
@@ -31,7 +31,7 @@ const Today = (props: componentNameProps) => {
   const [date, setDate] = useState<any>(null);
   const [maxDate, setMaxDate] = useState<any>(null);
 
-  const {data, loading, refetch} = useQuery(EVENTS_FOR_TODAY, {
+  const { data, loading, refetch } = useQuery(EVENTS_FOR_TODAY, {
     variables: {
       where: {
         type: {
@@ -64,8 +64,6 @@ const Today = (props: componentNameProps) => {
     setDate(new Date().toISOString());
   }, []);
 
-  console.log("events", data);
-
   if (loading) {
     return <Loader />;
   }
@@ -85,22 +83,19 @@ const Today = (props: componentNameProps) => {
         <View style={styles.updateItem}>
           {itemData.item.images.length > 0 && (
             <Image
-              source={{uri: itemData.item.images[0].replace("http", "https")}}
+              source={{ uri: itemData.item.images[0].replace("http", "https") }}
               style={styles.image}
               resizeMode="cover"
             />
           )}
           <View style={styles.content}>
-            <CustomText styles={{fontSize: fonts.large, fontWeight: "bold"}}>
+            <CustomText styles={{ fontSize: fonts.medium, fontWeight: "bold" }}>
               {itemData.item.name}
             </CustomText>
             <View style={styles.senderAndDate}>
-              <CustomText styles={{fontSize: fonts.small, fontWeight: "400"}}>
-                {` ${itemData.item.description}`}
+              <CustomText styles={{ fontSize: fonts.small, fontWeight: "400" }}>
+                {`${itemData.item.description}`}
               </CustomText>
-              {/* <CustomText styles={{ fontSize: 14, color: colors.date }}>
-              {itemData.item.date.toLocaleTimeString()}
-            </CustomText> */}
             </View>
           </View>
         </View>

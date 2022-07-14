@@ -85,6 +85,8 @@ const AddMedicine = (props: AddMedicineProps) => {
       name: title,
       description: description,
       images: images,
+      // days: days,
+      // times: times,
     },
     refetchQueries: [
       {
@@ -157,6 +159,10 @@ const AddMedicine = (props: AddMedicineProps) => {
     const selectedTime = selectedValue || new Date();
 
     setTime(selectedTime);
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 162 ~ onDateChange ~ selectedTime",
+      selectedTime
+    );
     setTimes([...times, selectedTime]);
     console.log(
       "🚀 ~ file: index.tsx ~ line 82 ~ onDateChange ~ selectedTime",

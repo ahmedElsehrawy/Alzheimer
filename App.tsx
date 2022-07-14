@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { MainStack, AuthStack, AdminStack } from "./navigations";
-//@ts-ignore
 import * as Font from "expo-font";
 import AppLoading from "expo-app-loading";
 import {
@@ -47,12 +46,12 @@ export async function registerForPushNotificationsAsync() {
   }
   `,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(
       "🚀 ~ file: App.tsx ~ line 47 ~ registerForPushNotificationsAsync ~ error",
       error
     );
-    Alert.alert(error?.message);
+    Alert.alert(error.message);
   }
 }
 
@@ -61,33 +60,36 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export default function App() {
+interface Props {
+  navigation: any;
+}
+
+export default function App(props: Props) {
   const [dataLoaded, setDataLoaded] = useState(false);
 
   const { loggedIn: loggedInContext, isAdmin: isAdminContext } =
     useContext(AuthContext);
 
-  const [updatePatientLocation, { loading, data }] = useMutation(
-    UPDATE_PATIENT_LOCATION
-  );
+  const [updatePatientLocation] = useMutation(UPDATE_PATIENT_LOCATION);
   const { data: meData } = useQuery(ME);
 
-  const MINUTE_MS = 10000;
+  const MINUTE_MS = 60000;
 
   let newLocation = useLocation();
-  const _handleNotification = (notification) => {
+
+  const _handleNotification = (notification: any) => {
     console.log(
       "🚀 ~ file: App.tsx ~ line 75 ~ App ~ notification",
       notification
     );
-    notification?.request?.content?.title &&
-      Alert.alert(
-        notification.request.content.title,
-        notification.request.content.body
-      );
+    // notification?.request?.content?.title &&
+    //   Alert.alert(
+    //     notification.request.content.title,
+    //     notification.request.content.body
+    //   );
   };
 
-  const _handleNotificationResponse = (response) => {
+  const _handleNotificationResponse = (response: any) => {
     console.log("🚀 ~ file: App.tsx ~ line 89 ~ App ~ response", response);
   };
   useEffect(() => {
@@ -125,11 +127,6 @@ export default function App() {
     }, MINUTE_MS);
     return () => clearInterval(interval);
   }, [newLocation, loggedInContext, isAdminContext]);
-
-  // const triggerNotificationHandler = () => {
-  //   Notifications.scheduleNotificationAsync({
-  //   })
-  // };
 
   if (!dataLoaded) {
     return (

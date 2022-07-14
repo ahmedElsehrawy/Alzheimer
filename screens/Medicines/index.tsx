@@ -26,7 +26,7 @@ export const GET_MEDICINES = gql`
 interface MedicinesProps {}
 
 const Medicines = (props: MedicinesProps) => {
-  const { data, loading } = useQuery(GET_MEDICINES, {
+  const { data, loading, refetch } = useQuery(GET_MEDICINES, {
     variables: {
       where: {
         type: {
@@ -41,14 +41,13 @@ const Medicines = (props: MedicinesProps) => {
     return <Loader />;
   }
 
-  if (data?.events?.count === 0) {
-    return <EmptyPage text="No Medicines Yet" />;
-  }
-
   return (
     <FlatList
       data={data?.events?.nodes}
       keyExtractor={(item) => item.id.toString()}
+      ListEmptyComponent={<EmptyPage text="No Medicines Yet" />}
+      onRefresh={refetch}
+      refreshing={loading}
       renderItem={(itemData) => (
         <View style={styles.item}>
           <Avatar

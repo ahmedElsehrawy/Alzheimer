@@ -25,12 +25,14 @@ const ListItem = (props: ListItemProps) => {
         onPress={props.onPressFunction}
       >
         {props.iconLib === "material" ? (
+          //@ts-ignore
           <MaterialCommunityIcons
             name={props.iconName}
             size={24}
             color={colors.black2}
           />
         ) : (
+          //@ts-ignore
           <Ionicons name={props.iconName} size={24} color={colors.black2} />
         )}
         <CustomText

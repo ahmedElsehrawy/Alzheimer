@@ -56,6 +56,16 @@ const Profile = (props: ProfileProps) => {
           textStyle={{ fontSize: fonts.medium }}
           buttonFunction={() => props.navigation.navigate("Requests")}
         />
+        <CustomButton
+          title="Go To Logout"
+          styles={{
+            width: "80%",
+            backgroundColor: colors.blue2,
+            borderRadius: 8,
+          }}
+          textStyle={{ fontSize: fonts.medium }}
+          buttonFunction={() => props.navigation.navigate("LogoutScreen")}
+        />
       </View>
     </View>
   );

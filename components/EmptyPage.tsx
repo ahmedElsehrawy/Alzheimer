@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import React from "react";
 import CustomText from "./CustomText";
 
@@ -8,7 +8,14 @@ interface EmptyPageProps {
 
 const EmptyPage = (props: EmptyPageProps) => {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        height: 600,
+      }}
+    >
       <Image
         source={require("../assets/nodata.png")}
         style={{ width: 160, height: 160 }}

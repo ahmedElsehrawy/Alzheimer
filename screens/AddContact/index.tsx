@@ -66,7 +66,10 @@ const AddContact = (props: componentNameProps) => {
       phone: phoneNumber,
     },
     onCompleted: () => {
-      props.navigation.navigate("MyContacts", { admin: true });
+      props.navigation.navigate("MyContacts", {
+        screen: "Contacts",
+        params: { admin: true },
+      });
     },
     refetchQueries: [{ query: GET_CONTACTS }],
   });
@@ -99,12 +102,6 @@ const AddContact = (props: componentNameProps) => {
       });
   };
 
-  // useEffect(() => {
-  //   if (props.route?.params?.imageFile) {
-  //     handleUploadImage(props.route?.params?.imageFile);
-  //   }
-  // }, [props.route?.params?.imageFile]);
-
   if (loadingData || loading) {
     return <Loader />;
   }
@@ -136,16 +133,19 @@ const AddContact = (props: componentNameProps) => {
               onChangeText={(text: string) => setPhoneNumber(text)}
             />
             <View style={styles.typeSelectContainer}>
-              <RNPickerSelect
-                value={type}
-                placeholder={placeholder}
-                onValueChange={(value) => setType(value)}
-                items={[
-                  { label: "friend", value: "FRIEND" },
-                  { label: "family", value: "FAMILY" },
-                  { label: "neighbour", value: "NEIGHBOUR" },
-                ]}
-              />
+              {
+                //@ts-ignore
+                <RNPickerSelect
+                  value={type}
+                  placeholder={placeholder}
+                  onValueChange={(value) => setType(value)}
+                  items={[
+                    { label: "friend", value: "FRIEND" },
+                    { label: "family", value: "FAMILY" },
+                    { label: "neighbour", value: "NEIGHBOUR" },
+                  ]}
+                />
+              }
             </View>
 
             <CustomButton

@@ -54,7 +54,11 @@ interface RequestsProps {}
 
 const Requests = (props: RequestsProps) => {
   const [requests, setRequests] = useState<any>([]);
-  const { data: requestsData, loading: requestsLoading } = useQuery(REQUESTS, {
+  const {
+    data: requestsData,
+    loading: requestsLoading,
+    refetch,
+  } = useQuery(REQUESTS, {
     variables: {
       where: {
         status: {
@@ -123,10 +127,6 @@ const Requests = (props: RequestsProps) => {
     return <Loader />;
   }
 
-  if (requestsData.requests.count === 0) {
-    return <EmptyPage text="No Requests In this Moment" />;
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.requests}>
@@ -134,6 +134,9 @@ const Requests = (props: RequestsProps) => {
           data={requests}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
+          onRefresh={refetch}
+          refreshing={requestsLoading}
+          ListEmptyComponent={<EmptyPage text="No Requests In this Moment" />}
           renderItem={(itemData) => (
             <View style={styles.requestItem}>
               <Avatar diameter={60} imageUrl={itemData.item.user.avatar} />

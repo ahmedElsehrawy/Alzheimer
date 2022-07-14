@@ -4,7 +4,6 @@ import { View, FlatList, Image } from "react-native";
 import CustomText from "../../components/CustomText";
 import EmptyPage from "../../components/EmptyPage";
 import Loader from "../../components/Loader";
-// import Map from "../../components/MapView";
 import fonts from "../../theme/fonts";
 import styles from "./styles";
 
@@ -32,7 +31,7 @@ interface componentNameProps {}
 
 const Updates = (props: componentNameProps) => {
   const [transformedUpdated, setTransformedUpdates] = useState<any>([]);
-  const { data, loading } = useQuery(GET_UPDATES, {
+  const { data, loading, refetch } = useQuery(GET_UPDATES, {
     variables: {
       where: {
         type: {
@@ -66,13 +65,13 @@ const Updates = (props: componentNameProps) => {
     return <Loader />;
   }
 
-  if (data?.events?.count === 0) {
-    return <EmptyPage text="No Updates Yet" />;
-  }
   return (
     <FlatList
       data={transformedUpdated}
       keyExtractor={(item) => item.id.toString()}
+      onRefresh={refetch}
+      refreshing={loading}
+      ListEmptyComponent={<EmptyPage text="No Updates Yet" />}
       renderItem={(itemData) => (
         <View style={styles.updateItem}>
           {itemData.item.images.length >= 0 && (
@@ -83,7 +82,7 @@ const Updates = (props: componentNameProps) => {
             />
           )}
           <View style={styles.content}>
-            <CustomText styles={{ fontSize: fonts.large, fontWeight: "bold" }}>
+            <CustomText styles={{ fontSize: fonts.medium, fontWeight: "bold" }}>
               {itemData.item.name}
             </CustomText>
             <View style={styles.senderAndDate}>

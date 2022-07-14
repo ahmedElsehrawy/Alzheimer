@@ -23,6 +23,7 @@ import AddMedicine from "../screens/AddMedicine";
 import MedicinePictureScreen from "../screens/AddMedicine/MedicinepictureScreem";
 import Location from "../screens/Location";
 import EditContact from "../screens/EditContact";
+import EditContactPictureScreen from "../screens/EditContact/EditContactPicture";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -193,16 +194,22 @@ const SettingStack = () => {
         }}
       />
       <Stack.Screen name="AddContact" component={AddContact} />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="AddContactImages"
         component={AddContactImages}
         options={{ headerTitle: "Choose Some Images" }}
-      />
+      /> */}
       <Stack.Screen
         name="ContactPictureScreen"
         component={ContactPictureScreen}
         options={{ headerTitle: "Choose Contact Image" }}
       />
+      <Stack.Screen
+        name="EditContactPictureScreen"
+        component={EditContactPictureScreen}
+        options={{ headerTitle: "Choose Contact Image" }}
+      />
+
       <Stack.Screen
         name="MyContacts"
         component={ContactStack}

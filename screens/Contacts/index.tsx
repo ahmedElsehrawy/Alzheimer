@@ -35,7 +35,7 @@ interface AdminProps {
 }
 
 const Contacts = (props: AdminProps) => {
-  const { data, loading } = useQuery(GET_CONTACTS);
+  const { data, loading, refetch } = useQuery(GET_CONTACTS);
   console.log("🚀 ~ file: index.tsx ~ line 38 ~ Contacts ~ data", data);
 
   const [deletContact, { loading: deleteLoading }] = useMutation(
@@ -75,14 +75,17 @@ const Contacts = (props: AdminProps) => {
     }
   };
 
-  if (data.contacts.count === 0) {
-    return <EmptyPage text="No Contacts Yet" />;
-  }
+  // if (data.contacts.count === 0) {
+  //   return <EmptyPage text="No Contacts Yet" />;
+  // }
 
   return (
     <FlatList
       data={data?.contacts?.nodes}
       keyExtractor={(item) => item.id.toString()}
+      onRefresh={refetch}
+      refreshing={loading}
+      ListEmptyComponent={<EmptyPage text="No Contacts Yet" />}
       renderItem={(itemData) => (
         <View style={styles.item}>
           <Avatar
@@ -93,7 +96,7 @@ const Contacts = (props: AdminProps) => {
           />
           {props?.route?.params?.admin ? (
             <View style={styles.btnContainer}>
-              <CustomButton
+              {/* <CustomButton
                 styles={{
                   margin: 10,
                   width: "40%",
@@ -111,7 +114,7 @@ const Contacts = (props: AdminProps) => {
                     itemData: itemData,
                   });
                 }}
-              />
+              /> */}
               <CustomButton
                 styles={{
                   margin: 10,

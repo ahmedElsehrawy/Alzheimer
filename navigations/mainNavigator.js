@@ -15,6 +15,7 @@ import { getOptions } from "../modules/helpers";
 import Medicines from "../screens/Medicines";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Requests from "../screens/Requests";
+import LogoutScreen from "../screens/Logout";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,34 +46,34 @@ export default MainStack = () => {
             headerLeftContainerStyle: {
               paddingHorizontal: 10,
             },
-            headerLeft: () => {
-              return (
-                <TouchableWithoutFeedback
-                  style={{
-                    backgroundColor: "transparent",
-                  }}
-                  onPress={() => {
-                    signOut()
-                      .then(() => {
-                        setLoggedIn(false);
-                        setIsAdmin(false);
-                      })
-                      .catch((err) => {
-                        console.log(
-                          "🚀 ~ file: mainNavigator.js ~ line 50 ~ err",
-                          err
-                        );
+            //  headerLeft: () => {
+            //   return (
+            //     <TouchableWithoutFeedback
+            //       style={{
+            //         backgroundColor: "transparent",
+            //       }}
+            // onPress={() => {
+            //   signOut()
+            //     .then(() => {
+            //       setLoggedIn(false);
+            //       setIsAdmin(false);
+            //     })
+            //     .catch((err) => {
+            //       console.log(
+            //         "🚀 ~ file: mainNavigator.js ~ line 50 ~ err",
+            //         err
+            //       );
 
-                        setLoggedIn(true);
-                      });
-                  }}
-                >
-                  <Text style={{ fontSize: fonts.small, fontWeight: "700" }}>
-                    Logout
-                  </Text>
-                </TouchableWithoutFeedback>
-              );
-            },
+            //       setLoggedIn(true);
+            //     });
+            //       }}
+            //     >
+            //       <Text style={{ fontSize: fonts.small, fontWeight: "700" }}>
+            //         Logout
+            //       </Text>
+            //     </TouchableWithoutFeedback>
+            //   );
+            // },
           }}
         />
         <Tab.Screen
@@ -120,6 +121,7 @@ const ProfileStack = () => {
         }}
       />
       <Stack.Screen name="Requests" component={Requests} />
+      <Stack.Screen name="LogoutScreen" component={LogoutScreen} />
     </Stack.Navigator>
   );
 };
